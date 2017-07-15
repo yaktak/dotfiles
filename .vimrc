@@ -88,7 +88,7 @@ set tags=~/.tags
 
 
 " --- セッション ---
-set sessionoptions=blank,buffers,curdir,folds,help,localoptions,tabpages,winsize
+set sessionoptions=curdir,folds,help,localoptions,tabpages,winsize
 
 " セッションファイルがロードされていた場合、Vim終了時に現在のセッションで上書きする
 " ロードされていてもいなくても、previous.vimとして保存する
@@ -125,7 +125,12 @@ set smartcase  " 小文字のときのみ区別しない
 
 
 " --- タブ ---
-set showtabline=2 " タブページを常に表示
+
+" タブページのラベルの表示方法
+" 0: 表示しない
+" 1: 2個以上タブがあるときに表示
+" 2: 常に表示
+set showtabline=1
 
 
 " --- ウィンドウ ---
@@ -257,6 +262,9 @@ call dein#add('tpope/vim-surround')
 call dein#add('ToruIwashita/git-switcher.vim')
 call dein#add('vim-syntastic/syntastic')
 call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('mtscout6/syntastic-local-eslint.vim')
+call dein#add('posva/vim-vue')
+call dein#add('alvan/vim-closetag')
 
 call dein#end()
 
