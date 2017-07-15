@@ -265,6 +265,7 @@ call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('mtscout6/syntastic-local-eslint.vim')
 call dein#add('posva/vim-vue')
 call dein#add('alvan/vim-closetag')
+call dein#add('tomasr/molokai')
 
 call dein#end()
 
