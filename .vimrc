@@ -18,6 +18,7 @@ nnoremap <C-j> <C-w>w
 " 前のウィンドウへ移動
 nnoremap <C-k> <C-w>W
 
+
 "inoremap { {}<Left>
 "inoremap {<Enter> {}<Left><CR><ESC><S-o>
 "inoremap [ []<Left>
@@ -27,7 +28,6 @@ nnoremap <C-k> <C-w>W
 "inoremap < <><Left>
 "inoremap " ""<Left>
 "inoremap ' ''<Left>
-
 
 " --- Leaderマッピング ---
 let mapleader = "\<Space>"
@@ -46,11 +46,15 @@ augroup mapping
     autocmd FileType vim let b:comment_identifier = '"'
 augroup END
 
+
 " NERTTreeの表示を切替
 nnoremap <silent> <Leader>nt :<C-u>NERDTreeToggle<CR>
 
 " vim-indent-guidesの切替
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
+
+" Highlight Marksのハイライトを全て削除
+nnoremap <silent> <Leader>mh :<C-u>RemoveMarkHighlights<CR>
 
 " 最初のレジスタを貼り付け
 nnoremap <Leader>p "0p
@@ -63,6 +67,12 @@ nnoremap <Leader>- :<C-u>call CommentOutRow()<CR>
 
 " 下に改行を挿入
 nnoremap <Leader><Space> o<ESC>
+
+" 次のlowercaseのマークへジャンプ
+nnoremap <Leader>] ]`
+
+" 前のlowercaseのマークへジャンプ
+nnoremap <Leader>[ [`
 
 
 " --- 基本オプション ---
@@ -114,7 +124,7 @@ set showcmd        " 入力中のコマンドを表示
 
 " --- 不可視文字 ---
 set list
-set listchars=tab:►-,trail:▢,eol:↲
+set listchars=tab:>-,trail:-,eol:↲
 
 
 " --- 検索 ---
@@ -201,7 +211,7 @@ set expandtab     " タブ文字を空白に展開
 
 augroup indent
     autocmd!
-    autocmd BufRead,BufNewfile *.css,*.js,*.rb,*.tpl setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewfile *.css,*.htm,*.html,*.js,*.rb,*.tpl setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 
@@ -266,6 +276,8 @@ call dein#add('mtscout6/syntastic-local-eslint.vim')
 call dein#add('posva/vim-vue')
 call dein#add('alvan/vim-closetag')
 call dein#add('tomasr/molokai')
+call dein#add('Tumbler/highlightMarks')
+call dein#add('gregsexton/MatchTag')
 
 call dein#end()
 
@@ -276,8 +288,18 @@ endif
 
 filetype plugin indent on
 
+function! s:deinClean()
+  if len(dein#check_clean())
+    call map(dein#check_clean(), 'delete(v:val)')
+  else
+    echo '[ERR] no disabled plugins'
+  endif
+endfunction
+command! DeinClean :call s:deinClean()
+
 
 " --- NERDTree ---
+
 " Windowの横幅
 let g:NERDTreeWinSize=50
 
@@ -317,3 +339,9 @@ let g:syntastic_check_on_open = 1
 
 " :wq で終了する時もチェックする
 let g:syntastic_check_on_wq = 0
+
+
+" --- Highlight Marks ---
+
+" signを有効にする
+let g:highlightMarks_useSigns = 0
