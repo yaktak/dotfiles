@@ -258,7 +258,7 @@ endif
 
 " deinが導入されてなければclone
 if !isdirectory(s:dein_repo_dir)
-    execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+    execute '!git clone https://github.com/Shougo/dein.vim.git' s:dein_repo_dir
 endif
 
 execute 'set runtimepath^=' . s:dein_repo_dir
