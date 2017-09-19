@@ -1,3 +1,7 @@
+" 変数
+let s:winWidthMin=100
+let s:winHeightMin=20
+
 " --- キーマッピング ---
 nnoremap j gj
 nnoremap k gk
@@ -18,6 +22,10 @@ nnoremap <C-j> <C-w>w
 " 前のウィンドウへ移動
 nnoremap <C-k> <C-w>W
 
+" インサートモード中に横移動
+inoremap <C-b> <C-o>h
+inoremap <C-f> <C-o>l
+
 
 "inoremap { {}<Left>
 "inoremap {<Enter> {}<Left><CR><ESC><S-o>
@@ -29,13 +37,28 @@ nnoremap <C-k> <C-w>W
 "inoremap " ""<Left>
 "inoremap ' ''<Left>
 
+
 " --- Leaderマッピング ---
 let mapleader = "\<Space>"
 let b:comment_identifier = ''
+let s:isWindowModeFull = 0
 
 function! CommentOutRow()
     if b:comment_identifier != ''
         execute 'normal I' . b:comment_identifier . ' '
+    endif
+endfunction
+
+function! ToggleFullWindowMode()
+    if s:isWindowModeFull
+        execute 'set winwidth=' . s:winWidthMin
+        execute 'set winheight=' . s:winHeightMin
+        let s:isWindowModeFull = 0
+        execute "normal! \<C-w>="
+    else
+        set winwidth=9999
+        set winheight=9999
+        let s:isWindowModeFull = 1
     endif
 endfunction
 
@@ -46,7 +69,6 @@ augroup mapping
     autocmd FileType vim let b:comment_identifier = '"'
 augroup END
 
-
 " NERTTreeの表示を切替
 nnoremap <silent> <Leader>nt :<C-u>NERDTreeToggle<CR>
 
@@ -54,7 +76,7 @@ nnoremap <silent> <Leader>nt :<C-u>NERDTreeToggle<CR>
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
 " Highlight Marksのハイライトを全て削除
-nnoremap <silent> <Leader>mh :<C-u>RemoveMarkHighlights<CR>
+nnoremap <silent> <Leader>rm :<C-u>RemoveMarkHighlights<CR>
 
 " 最初のレジスタを貼り付け
 nnoremap <Leader>p "0p
@@ -74,6 +96,9 @@ nnoremap <Leader>] ]`
 " 前のlowercaseのマークへジャンプ
 nnoremap <Leader>[ [`
 
+" 常にカレントウィンドウの大きさを最大にするモード
+nnoremap <Leader>wf :<C-u>call ToggleFullWindowMode()<CR>
+
 
 " --- 基本オプション ---
 colorscheme molokai
@@ -86,7 +111,6 @@ syntax on
 set backspace=start,eol,indent
 set mouse=a  " マウス機能
 set hidden   " 隠れバッファの許可
-set paste    " ペーストの際に表示が崩れるのを防ぐ
 set undofile " 永続的Undo機能
 
 
@@ -118,8 +142,13 @@ augroup END
 " --- 見た目 ---
 set nocursorline   " カーソルラインの強調表示
 set number         " 行番号の表示
-set colorcolumn=80 " 縦のライン表示
+set colorcolumn=100 " 縦のライン表示
 set showcmd        " 入力中のコマンドを表示
+
+augroup appearance
+    autocmd!
+    autocmd BufRead, BufNewFile *.scss, *.css set filetype=sass
+augroup END
 
 
 " --- 不可視文字 ---
@@ -135,7 +164,6 @@ set smartcase  " 小文字のときのみ区別しない
 
 
 " --- タブ ---
-
 " タブページのラベルの表示方法
 " 0: 表示しない
 " 1: 2個以上タブがあるときに表示
@@ -146,8 +174,12 @@ set showtabline=1
 " --- ウィンドウ ---
 set splitbelow   " 新しいウィンドウを下に開く
 set splitright   " 新しいウィンドウを右に開く
-set winwidth=90  " ウィンドウの最小幅
-set winheight=30 " ウィンドウの最小の高さ
+
+" ウィンドウの最小幅
+execute 'set winwidth=' . s:winWidthMin
+
+" ウィンドウの最小の高さ
+execute 'set winheight=' . s:winHeightMin
 
 
 " --- ステータスライン ---
@@ -175,7 +207,7 @@ function! SwitchStatusLineCurrent()
         setlocal statusline+=[No\ Session]
     endif
 
-    "setlocal statusline+=[%{&fileencoding}] " ファイルのエンコーディング
+    setlocal statusline+=[%{&fileencoding}] " ファイルのエンコーディング
     setlocal statusline+=[%l/%L,%c]         " 現在行/全行数,現在列
 endfunction
 
@@ -216,7 +248,6 @@ augroup END
 
 
 " --- Linting ---
-
 " エラー表示のフォーマットを設定
 set errorformat=%m\ in\ %f:\ line\ %l
 
@@ -230,7 +261,6 @@ augroup END
 
 
 " --- ユーザー定義コマンド ---
-
 " :Bt <N>...でバッファ番号からバックグラウンドにタブを開く
 command! -nargs=+ Bt call BufsToTabs(<f-args>)
 function! BufsToTabs(...)
@@ -248,7 +278,6 @@ endfunction
 
 
 " --- dein.vim ---
-
 let s:dein_dir = $HOME . '/.vim/plugins/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
@@ -274,10 +303,16 @@ call dein#add('vim-syntastic/syntastic')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('mtscout6/syntastic-local-eslint.vim')
 call dein#add('posva/vim-vue')
-call dein#add('alvan/vim-closetag')
 call dein#add('tomasr/molokai')
 call dein#add('Tumbler/highlightMarks')
 call dein#add('gregsexton/MatchTag')
+call dein#add('editorconfig/editorconfig-vim')
+call dein#add('jwalton512/vim-blade')
+call dein#add('flyinshadow/php_localvarcheck.vim')
+call dein#add('mattn/emmet-vim')
+call dein#add('hail2u/vim-css3-syntax')
+call dein#add('othree/html5.vim')
+call dein#add('ap/vim-css-color')
 
 call dein#end()
 
@@ -290,22 +325,20 @@ filetype plugin indent on
 
 function! s:deinClean()
   if len(dein#check_clean())
-    call map(dein#check_clean(), 'delete(v:val)')
+      call map(dein#check_clean(), 'delete(v:val)')
   else
-    echo '[ERR] no disabled plugins'
+      echo '[ERR] no disabled plugins'
   endif
 endfunction
 command! DeinClean :call s:deinClean()
 
 
 " --- NERDTree ---
-
 " Windowの横幅
-let g:NERDTreeWinSize=50
+let g:NERDTreeWinSize=40
 
 
 " -- git-switcher.vim ---
-
 " セッションを保存するディレクトリパス。
 let g:gsw_sessions_dir = $HOME . '/.vim/sessions'
 
@@ -321,7 +354,6 @@ let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
 
 
 " --- Syntastic.vim ---
-
 " linterの設定
 let g:syntastic_javascript_checkers=['eslint']
 
@@ -342,6 +374,16 @@ let g:syntastic_check_on_wq = 0
 
 
 " --- Highlight Marks ---
-
 " signを有効にする
 let g:highlightMarks_useSigns = 0
+
+
+" --- vim-indent-guides ---
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+
+" --- emmet-vim ---
+let g:user_emmet_mode='inv'
+let g:user_emmet_leader_key='<C-Y>'
+
