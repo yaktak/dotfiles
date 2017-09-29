@@ -101,7 +101,7 @@ nnoremap <Leader>wf :<C-u>call ToggleFullWindowMode()<CR>
 
 
 " --- 基本オプション ---
-colorscheme molokai
+colorscheme tender
 syntax on
 
 " [Backspace] で既存の文字を削除できるように設定
@@ -293,19 +293,18 @@ endif
 execute 'set runtimepath^=' . s:dein_repo_dir
 
 call dein#begin(s:dein_dir)
+call dein#add(s:dein_repo_dir)
 
 " 管理するプラグイン
-call dein#add(s:dein_repo_dir)
 call dein#add('scrooloose/nerdtree')
 call dein#add('tpope/vim-surround')
+call dein#add('Tumbler/highlightMarks')
 call dein#add('ToruIwashita/git-switcher.vim')
 call dein#add('vim-syntastic/syntastic')
-call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('mtscout6/syntastic-local-eslint.vim')
+call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('posva/vim-vue')
-call dein#add('tomasr/molokai')
-call dein#add('Tumbler/highlightMarks')
-call dein#add('gregsexton/MatchTag')
+call dein#add('Valloric/MatchTagAlways')
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('jwalton512/vim-blade')
 call dein#add('flyinshadow/php_localvarcheck.vim')
@@ -313,6 +312,11 @@ call dein#add('mattn/emmet-vim')
 call dein#add('hail2u/vim-css3-syntax')
 call dein#add('othree/html5.vim')
 call dein#add('ap/vim-css-color')
+
+" Color Scheme
+call dein#add('tomasr/molokai')
+call dein#add('ciaranm/inkpot')
+call dein#add('jacoborus/tender.vim')
 
 call dein#end()
 
@@ -384,6 +388,16 @@ let g:indent_guides_guide_size = 1
 
 
 " --- emmet-vim ---
-let g:user_emmet_mode='inv'
+let g:user_emmet_mode='a'
 let g:user_emmet_leader_key='<C-Y>'
 
+
+" --- MatchTagAlways ---
+let g:mta_filetypes = {
+  \ 'html': 1,
+  \ 'xhtml': 1,
+  \ 'xml': 1,
+  \ 'jinja': 1,
+  \ 'smarty': 1,
+  \ 'blade': 1,
+\ }
