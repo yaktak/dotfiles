@@ -40,12 +40,12 @@ inoremap <C-f> <C-o>l
 
 " --- Leaderマッピング ---
 let mapleader = "\<Space>"
-let b:comment_identifier = ''
+let b:commentIdentifier = ''
 let s:isWindowModeFull = 0
 
 function! CommentOutRow()
-    if b:comment_identifier != ''
-        execute 'normal I' . b:comment_identifier . ' '
+    if b:commentIdentifier != ''
+        execute 'normal I' . b:commentIdentifier . ' '
     endif
 endfunction
 
@@ -64,9 +64,9 @@ endfunction
 
 augroup mapping
     autocmd!
-    autocmd BufRead *.py,*.rb let b:comment_identifier = '#'
-    autocmd BufRead *.js,*.php let b:comment_identifier = '//'
-    autocmd FileType vim let b:comment_identifier = '"'
+    autocmd BufRead *.py,*.rb let b:commenIdentifier = '#'
+    autocmd BufRead *.js,*.php let b:commenIdentifier = '//'
+    autocmd FileType vim let b:commentIdentifier = '"'
 augroup END
 
 " NERTTreeの表示を切替
@@ -98,6 +98,9 @@ nnoremap <Leader>[ [`
 
 " 常にカレントウィンドウの大きさを最大にするモード
 nnoremap <Leader>wf :<C-u>call ToggleFullWindowMode()<CR>
+
+" 開いているファイルをスクリプトとして実行
+nnoremap <Leader>x :<C-u>QuickRun<CR>
 
 
 " --- 基本オプション ---
@@ -203,18 +206,21 @@ function! SwitchStatusLineCurrent()
     if v:this_session != ''
         " 拡張子を2段階で削除
         setlocal statusline+=[%(%{fnamemodify(fnamemodify(v:this_session,':t:r'),':r')}%)]
-    else
-        setlocal statusline+=[No\ Session]
     endif
 
-    setlocal statusline+=[%{&fileencoding}] " ファイルのエンコーディング
-    setlocal statusline+=[%l/%L,%c]         " 現在行/全行数,現在列
+    " ファイルタイプ
+    if &filetype != ''
+        setlocal statusline+=[%{&filetype}]
+    endif
+
+    " setlocal statusline+=[%{&fileencoding}] " ファイルのエンコーディング
+    setlocal statusline+=[%l/%L,%c] " 現在行/全行数,現在列
 endfunction
 
 augroup statusLine
     autocmd!
-    autocmd SessionLoadPost  * call SwitchStatusLineCurrent()
-    autocmd WinEnter * call SwitchStatusLineCurrent()
+    autocmd   * call SwitchStatusLineCurrent()
+    autocmd WinEnter,BufEnter,SessionLoadPost * call SwitchStatusLineCurrent()
     autocmd WinLeave * call InitStatusLine()
 augroup END
 
@@ -303,15 +309,17 @@ call dein#add('ToruIwashita/git-switcher.vim')
 call dein#add('vim-syntastic/syntastic')
 call dein#add('mtscout6/syntastic-local-eslint.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
-call dein#add('posva/vim-vue')
-call dein#add('Valloric/MatchTagAlways')
 call dein#add('editorconfig/editorconfig-vim')
-call dein#add('jwalton512/vim-blade')
-call dein#add('flyinshadow/php_localvarcheck.vim')
-call dein#add('mattn/emmet-vim')
-call dein#add('hail2u/vim-css3-syntax')
+call dein#add('thinca/vim-quickrun')
+call dein#add('Valloric/MatchTagAlways')
 call dein#add('othree/html5.vim')
+call dein#add('hail2u/vim-css3-syntax')
 call dein#add('ap/vim-css-color')
+call dein#add('mattn/emmet-vim')
+call dein#add('jwalton512/vim-blade')
+call dein#add('posva/vim-vue')
+call dein#add('flyinshadow/php_localvarcheck.vim')
+call dein#add('davidhalter/jedi-vim')
 
 " Color Scheme
 call dein#add('tomasr/molokai')
