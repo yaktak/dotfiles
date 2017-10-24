@@ -1,5 +1,5 @@
 " 変数
-let s:winWidthMin=100
+let s:winWidthMin=30
 let s:winHeightMin=20
 
 " --- キーマッピング ---
