@@ -320,6 +320,7 @@ call dein#add('jwalton512/vim-blade')
 call dein#add('posva/vim-vue')
 call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('davidhalter/jedi-vim')
+call dein#add('michaeljsmith/vim-indent-object')
 
 " Color Scheme
 call dein#add('tomasr/molokai')
