@@ -3,7 +3,7 @@
 	name = yaktak
 	email = yakei034@gmail.com
 [push]
-	default = simple
+	default = current
 [core]
     excludesfile = ~/.gitignore
     editor = vim
@@ -14,17 +14,15 @@
 [alias]
     a = add
     b = branch
-    ba = branch -a
-    bd = branch -d
-    bm = branch -m
-    bD = branch -D
+    ba = branch --all
+    bd = branch --delete
+    bm = branch --move
     co = checkout
     cob = checkout -b
     c = commit
     ca = commit --all
-    cA = commit --amend
-    cm = commit -m
-    cam = commit -am
+    cam = commit --all --message
+    cm = commit --message
     d = diff
     dc = diff --cached
     dw = diff --word-diff
@@ -36,12 +34,14 @@
     pu = push --set-upstream
     puf = push --set-upstream --force
     pf = push --force
+    pl = pull
+    pwb = symbolic-ref --short HEAD
     rb = rebase
-    rbi = rebase -i
-    rsh = reset --mixed HEAD
-    rssh = reset --soft HEAD
-    rsmh = reset --mixed HEAD
-    rshh = reset --hard HEAD
+    rbi = rebase --interactive
+    rbc = rebase --continue
+    rss = reset --soft
+    rsm = reset --mixed
+    rsh = reset --hard
     sa = stash apply
     sc = stash clear
     ss = stash save
@@ -50,6 +50,5 @@
     sp = stash pop
     s = status
     l = log
-    l1 = log -1
     lo = log --oneline
-    lo1 = log --oneline -1
+    lgo = log --graph --oneline --pretty=format:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %C(bold blue)<%an>%Creset'
