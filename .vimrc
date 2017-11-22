@@ -1,5 +1,5 @@
 " 変数
-let s:winWidthMin=30
+let s:winWidthMin=50
 let s:winHeightMin=20
 
 " --- キーマッピング ---
@@ -41,7 +41,9 @@ inoremap <C-f> <C-o>l
 " --- Leaderマッピング ---
 let mapleader = "\<Space>"
 let b:commentIdentifier = ''
-let s:isWindowModeFull = 0
+let s:isFullWindowMode = 0
+let s:isFullHorizontalWindowMode = 0
+let s:isFullVerticalWindowMode = 0
 
 function! CommentOutRow()
     if b:commentIdentifier != ''
@@ -50,22 +52,50 @@ function! CommentOutRow()
 endfunction
 
 function! ToggleFullWindowMode()
-    if s:isWindowModeFull
+    if s:isFullWindowMode
         execute 'set winwidth=' . s:winWidthMin
         execute 'set winheight=' . s:winHeightMin
-        let s:isWindowModeFull = 0
+        let s:isFullWindowMode = 0
         execute "normal! \<C-w>="
     else
         set winwidth=9999
         set winheight=9999
-        let s:isWindowModeFull = 1
+        let s:isFullWindowMode = 1
+    endif
+endfunction
+
+function! ToggleHorizontalFullWindowMode()
+    if s:isFullHorizontalWindowMode
+        execute 'set winwidth=' . s:winWidthMin
+        let s:isFullHorizontalWindowMode = 0
+        execute "normal! \<C-w>="
+    else
+        set winwidth=9999
+        let s:isFullHorizontalWindowMode = 1
+        if s:isFullVerticalWindowMode
+            let s:isFullWindowMode = 1
+        endif
+    endif
+endfunction
+
+function! ToggleVerticalFullWindowMode()
+    if s:isFullVerticalWindowMode
+        execute 'set winheight=' . s:winHeightMin
+        let s:isFullVerticalWindowMode = 0
+        execute "normal! \<C-w>="
+    else
+        set winheight=9999
+        let s:isFullVerticalWindowMode = 1
+        if s:isFullHorizontalWindowMode
+            let s:isFullWindowMode = 1
+        endif
     endif
 endfunction
 
 augroup mapping
     autocmd!
-    autocmd BufRead *.py,*.rb let b:commenIdentifier = '#'
-    autocmd BufRead *.js,*.php let b:commenIdentifier = '//'
+    autocmd BufRead *.py,*.rb let b:commentIdentifier = '#'
+    autocmd BufRead *.js,*.php let b:commentIdentifier = '//'
     autocmd FileType vim let b:commentIdentifier = '"'
 augroup END
 
@@ -97,7 +127,13 @@ nnoremap <Leader>] ]`
 nnoremap <Leader>[ [`
 
 " 常にカレントウィンドウの大きさを最大にするモード
-nnoremap <Leader>wf :<C-u>call ToggleFullWindowMode()<CR>
+nnoremap <Leader>wfa :<C-u>call ToggleFullWindowMode()<CR>
+
+" 常にカレントウィンドウの幅を最大にするモード
+nnoremap <Leader>wfh :<C-u>call ToggleHorizontalFullWindowMode()<CR>
+
+" 常にカレントウィンドウの高さを最大にするモード
+nnoremap <Leader>wfv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 
 " 開いているファイルをスクリプトとして実行
 nnoremap <Leader>x :<C-u>QuickRun<CR>
@@ -115,14 +151,19 @@ set backspace=start,eol,indent
 set mouse=a  " マウス機能
 set hidden   " 隠れバッファの許可
 set undofile " 永続的Undo機能
+set binary noeol " 行末に勝手に改行しない
+set spell " スペルチェックを有効にする
 
+" --- スペルチェック（コメントだけ） ---
+set spelllang+=cjk " 日本語を除外
+hi clear SpellBad
+hi SpellBad cterm=underline " 間違いの表示をアンダーラインに
 
 " --- ディレクトリ ---
 set directory=~/.vim/tmp
 set backupdir=~/.vim/tmp
 set undodir=~/.vim/undo
 set tags=~/.tags
-
 
 " --- セッション ---
 set sessionoptions=curdir,folds,help,localoptions,tabpages,winsize
@@ -321,6 +362,8 @@ call dein#add('posva/vim-vue')
 call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('davidhalter/jedi-vim')
 call dein#add('michaeljsmith/vim-indent-object')
+call dein#add('othree/yajs.vim')
+call dein#add('wincent/command-t')
 
 " Color Scheme
 call dein#add('tomasr/molokai')
