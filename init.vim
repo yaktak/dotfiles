@@ -38,7 +38,7 @@ execute 'set runtimepath^=' . s:dein_repo_dir
 call dein#begin(s:dein_dir)
 call dein#add(s:dein_repo_dir)
 
-call dein#add('cocopon/vaffle.vim')
+call dein#add('scrooloose/nerdtree')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('tpope/vim-surround')
@@ -46,7 +46,6 @@ call dein#add('cohama/lexima.vim')
 call dein#add('thinca/vim-quickrun')
 call dein#add('ToruIwashita/git-switcher.vim')
 call dein#add('editorconfig/editorconfig-vim')
-call dein#add('Valloric/MatchTagAlways')
 call dein#add('mattn/emmet-vim')
 call dein#add('flyinshadow/php_localvarcheck.vim')
 
@@ -63,10 +62,14 @@ call dein#add('tomasr/molokai')
 call dein#add('ciaranm/inkpot')
 call dein#add('jacoborus/tender.vim')
 
+"call dein#add('cocopon/vaffle.vim')
+"call dein#add('Valloric/MatchTagAlways')
 "call dein#add('vim-syntastic/syntastic')
 "call dein#add('mtscout6/syntastic-local-eslint.vim')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
+"call dein#add('tpope/vim-fugitive')
+"call dein#add('Shougo/denite.nvim')
 
 call dein#end()
 
@@ -187,6 +190,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap Q <Nop>
 
+
 " 次のタブへ移動
 nnoremap <silent> <C-n> :<C-u>tabnext<CR>
 
@@ -203,8 +207,11 @@ nnoremap <C-k> <C-w>W
 inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
 
-" オムニ補完
+" 補完
 inoremap <expr><C-Space> pumvisible() ? "\<C-n>" : MyInsCompl()
+
+" NVimのターミナル脱出
+tnoremap <silent> <ESC> <C-\><C-n>
 
 
 " --- Leaderマッピング ---
@@ -267,7 +274,7 @@ augroup mapping
 augroup END
 
 " ファイラーの表示を切替
-nnoremap <silent> <Leader>f :<C-u>Vaffle<CR>
+nnoremap <silent> <Leader>f :<C-u>NERDTreeToggle<CR>
 
 " vim-indent-guidesの切替
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -294,7 +301,7 @@ nnoremap <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 nnoremap <Leader>x :<C-u>QuickRun<CR>
 
 " ペーストモード切り替え
-nnoremap <Leader>p :<C-u>TogglePasteMode()<CR>
+nnoremap <Leader>p :<C-u>call TogglePasteMode()<CR>
 
 
 " --- 基本オプション ---
@@ -463,7 +470,7 @@ set expandtab     " タブ文字を空白に展開
 
 augroup indent
     autocmd!
-    autocmd BufRead,BufNewfile *.css,*.htm,*.html,*.js,*.rb,*.tpl setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewfile *.scss,*.sass,*.css,*.htm,*.html,*.js,*.rb,*.tpl setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 
