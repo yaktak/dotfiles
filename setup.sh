@@ -12,7 +12,7 @@ cd $DOT_FILES
 for f in .??*; do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
-    [[ "$f" == "init.vim" ]] && mv "$f" "$CONFIG_DIR" && continue
+    [[ "$f" == "init.vim" ]] && ln -s "$DOT_FILES/$f" "$CONFIG_DIR/init.vim" && continue
 
     ln -s "$DOT_FILES/$f" "$HOME/$f"
 done
