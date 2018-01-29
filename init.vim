@@ -216,8 +216,9 @@ inoremap <C-f> <C-o>l
 inoremap <expr><C-Space> pumvisible() ? "\<C-n>" : MyInsCompl()
 
 " NVimのターミナル脱出
-tnoremap <silent> <ESC> <C-\><C-n>
-
+if has('nvim')
+    tnoremap <silent> <ESC> <C-\><C-n>
+endif
 
 " --- Leaderマッピング ---
 let mapleader = "\<Space>"
