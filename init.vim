@@ -1,8 +1,6 @@
 " ----------
 "   初期化
 " ----------
-let s:config_dir=$HOME . '/.config/nvim'
-
 " --- 汎用関数 ---
 function! MkdirIfNoExists(dir)
     if !isdirectory(a:dir)
@@ -11,11 +9,18 @@ function! MkdirIfNoExists(dir)
     return a:dir
 endfunction
 
+if has('nvim')
+    let s:config_dir=$HOME . '/.config/nvim'
+else
+    let s:config_dir=$HOME . '/.vim'
+endif
+
+call MkdirIfNoExists(s:config_dir)
+
 " ディレクトリ作成
 for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
 endfor
-
 
 " ------------------
 "   プラグイン管理
@@ -332,9 +337,9 @@ set termencoding=utf8 " 端末の出力に用いられるエンコーディン�
 
 
 " --- スペルチェック（コメントだけ） ---
-set spell                   " スペルチェックを有効にする
-set spelllang+=cjk          " 日本語を除外
-hi SpellBad cterm=underline " 間違いの表示をアンダーラインに
+"set spell                   " スペルチェックを有効にする
+"set spelllang+=cjk          " 日本語を除外
+"hi SpellBad cterm=underline " 間違いの表示をアンダーラインに
 "hi clear SpellBad
 
 
