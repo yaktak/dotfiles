@@ -1,6 +1,9 @@
 " ----------
 "   初期化
 " ----------
+filetype off
+filetype plugin indent off
+
 " --- 汎用関数 ---
 function! MkdirIfNoExists(dir)
     if !isdirectory(a:dir)
@@ -18,7 +21,7 @@ endif
 call MkdirIfNoExists(s:config_dir)
 
 " ディレクトリ作成
-for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo']
+for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
 endfor
 
@@ -50,9 +53,10 @@ call dein#add('tpope/vim-surround')
 call dein#add('cohama/lexima.vim')
 call dein#add('thinca/vim-quickrun')
 call dein#add('ToruIwashita/git-switcher.vim')
-call dein#add('editorconfig/editorconfig-vim')
 call dein#add('mattn/emmet-vim')
 call dein#add('flyinshadow/php_localvarcheck.vim')
+call dein#add('junegunn/vim-easy-align')
+call dein#add('glidenote/memolist.vim')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -75,6 +79,7 @@ call dein#add('jacoborus/tender.vim')
 "call dein#add('wincent/command-t')
 "call dein#add('tpope/vim-fugitive')
 "call dein#add('Shougo/denite.nvim')
+"call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
 
 call dein#end()
 
@@ -82,8 +87,6 @@ call dein#end()
 if dein#check_install()
     call dein#install()
 endif
-
-filetype plugin indent on
 
 function! s:deinClean()
   if len(dein#check_clean())
@@ -148,6 +151,7 @@ let g:mta_filetypes = {
   \ 'jinja': 1,
   \ 'smarty': 1,
   \ 'blade': 1,
+  \ 'vue': 1,
 \ }
 
 
@@ -214,6 +218,12 @@ inoremap <C-f> <C-o>l
 
 " 補完
 inoremap <expr><C-Space> pumvisible() ? "\<C-n>" : MyInsCompl()
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " NVimのターミナル脱出
 if has('nvim')
@@ -309,6 +319,11 @@ nnoremap <Leader>x :<C-u>QuickRun<CR>
 " ペーストモード切り替え
 nnoremap <Leader>p :<C-u>call TogglePasteMode()<CR>
 
+" memolist.vim
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
+
 
 " --- 基本オプション ---
 colorscheme tender
@@ -323,7 +338,8 @@ set backspace=start,eol,indent
 set mouse=a      " マウス機能
 set hidden       " 隠れバッファの許可
 set undofile     " 永続的Undo機能
-set binary noeol " 行末に勝手に改行しない
+"set binary noeol " 行末に勝手に改行しない
+set winminheight=0
 
 
 " --- カーソル移動 ---
@@ -344,11 +360,18 @@ set termencoding=utf8 " 端末の出力に用いられるエンコーディン�
 "hi clear SpellBad
 
 
+" --- テンプレート ---
+augroup session
+    autocmd!
+    autocmd BufNewFile *.vue 0r s:{config_dir} . '/template/vue.txt'
+augroup END
+
+
 " --- ディレクトリ ---
 execute 'set directory=' . s:config_dir . '/tmp'
 execute 'set backupdir=' . s:config_dir . '/tmp'
 execute 'set undodir='   . s:config_dir . '/undo'
-execute 'set tags='   . s:config_dir . '/tags'
+execute 'set tags='      . s:config_dir . '/tags'
 
 
 " --- セッション ---
@@ -447,7 +470,7 @@ endfunction
 
 augroup statusLine
     autocmd!
-    autocmd   * call SwitchStatusLineCurrent()
+    autocmd * call SwitchStatusLineCurrent()
     autocmd WinEnter,BufEnter,SessionLoadPost * call SwitchStatusLineCurrent()
     autocmd WinLeave * call InitStatusLine()
 augroup END
@@ -474,9 +497,17 @@ set autoindent    " 自動インデント
 set smartindent   " C言語スタイルのブロックを自動挿入
 set expandtab     " タブ文字を空白に展開
 
+filetype plugin indent on
+
 augroup indent
     autocmd!
-    autocmd BufRead,BufNewfile *.scss,*.sass,*.css,*.htm,*.html,*.js,*.rb,*.tpl setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType html       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType sass       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType scss       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType vue        setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 

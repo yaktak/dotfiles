@@ -17,6 +17,7 @@
     ba = branch --all
     bd = branch --delete
     bm = branch --move
+    br = branch --remote
     co = checkout
     cob = checkout -b
     c = commit
@@ -24,6 +25,7 @@
     can = commit --all --amend
     cam = commit --all --message
     camn = commit --all --message --amend
+    cem = commit --allow-empty --message
     cm = commit --message
     cmn = commit --message --amend
     cn = commit --amend
@@ -34,10 +36,8 @@
     f = fetch
     m = merge
     mt = mergetool -t vimdiff2
-    p = push
-    pu = push --set-upstream
-    puf = push --set-upstream --force
-    pf = push --force
+    ps = push
+    psf = push --force
     pl = pull
     plr = pull --rebase
     pwb = symbolic-ref --short HEAD
