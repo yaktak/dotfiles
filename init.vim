@@ -1,6 +1,9 @@
 " ----------
 "   初期化
 " ----------
+let s:config_dir = ''
+let s:config_file = ''
+
 filetype off
 filetype plugin indent off
 
@@ -13,9 +16,11 @@ function! MkdirIfNoExists(dir)
 endfunction
 
 if has('nvim')
-    let s:config_dir=$HOME . '/.config/nvim'
+    let s:config_dir = $HOME . '/.config/nvim'
+    let s:config_file = s:config_dir . '/init.vim'
 else
-    let s:config_dir=$HOME . '/.vim'
+    let s:config_dir = $HOME . '/.vim'
+    let s:config_file = $HOME . '/.vimrc'
 endif
 
 call MkdirIfNoExists(s:config_dir)
@@ -57,6 +62,7 @@ call dein#add('mattn/emmet-vim')
 call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('junegunn/vim-easy-align')
 call dein#add('glidenote/memolist.vim')
+call dein#add('junegunn/fzf.vim')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -143,6 +149,9 @@ let g:user_emmet_mode='a'
 let g:user_emmet_leader_key='<C-Y>'
 
 
+" --- fzf.vim ---
+set rtp+=/usr/local/opt/fzf
+
 " --- MatchTagAlways ---
 let g:mta_filetypes = {
   \ 'html': 1,
@@ -160,7 +169,6 @@ let g:mta_filetypes = {
 " -----------
 let s:win_width_min=50
 let s:win_height_min=20
-
 
 " --- キーマッピング ---
 function! MyInsCompl()
@@ -195,10 +203,12 @@ function! MyInsCompl()
   return "\<C-Space>"
 endfunction
 
+" 改行されてても上下移動
 nnoremap j gj
 nnoremap k gk
-nnoremap Q <Nop>
 
+" 誤爆しないように
+nnoremap Q <Nop>
 
 " 次のタブへ移動
 nnoremap <silent> <C-n> :<C-u>tabnext<CR>
@@ -235,6 +245,17 @@ let mapleader = "\<Space>"
 let s:is_full_win_mode = 0
 let s:is_full_horizontal_win_mode = 0
 let s:is_full_vertical_win_mode = 0
+
+function! OpenConfigFile()
+    execute 'e '. s:config_file
+endfunction
+
+if !exists('*ReloadConfigFile')
+    function! ReloadConfigFile()
+        execute 'source '. s:config_file
+        echo s:config_file . ' loaded'
+    endfunction
+endif
 
 function! ToggleFullWindowMode()
     if s:is_full_win_mode
@@ -278,10 +299,12 @@ function! ToggleVerticalFullWindowMode()
 endfunction
 
 function! TogglePasteMode()
-    if set paste? == 'paste'
+    if &paste == 'paste'
         set nopaste
+        echo 'Paste mode off'
     else
         set paste
+        echo 'Paste mode on'
     endif
 endfunction
 
@@ -289,40 +312,51 @@ augroup mapping
     autocmd!
 augroup END
 
-" ファイラーの表示を切替
-nnoremap <silent> <Leader>f :<C-u>NERDTreeToggle<CR>
+" 設定ファイルを開く
+nnoremap <silent> <Leader>co :<C-u>call OpenConfigFile()<CR>
 
-" vim-indent-guidesの切替
-nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
+" 設定ファイルを再読込
+nnoremap <silent> <Leader>cr :<C-u>call ReloadConfigFile()<CR>
 
 " 最初のレジスタを貼り付け
-nnoremap <Leader>rp "0p
-
-" 現在行と列のハイライトを切替
-nnoremap <Leader>cl :<C-u>setlocal cursorline! cursorcolumn!<CR>
+nnoremap <silent> <Leader>rp "0p
 
 " 下に改行を挿入
 nnoremap <Leader><Space> o<ESC>
 
+" 現在行と列のハイライトを切替
+nnoremap <silent> <Leader>cl :<C-u>setlocal cursorline! cursorcolumn!<CR>
+
 " 常にカレントウィンドウの大きさを最大にする or 戻す
-nnoremap <Leader>wa :<C-u>call ToggleFullWindowMode()<CR>
+nnoremap <silent> <Leader>wa :<C-u>call ToggleFullWindowMode()<CR>
 
 " 常にカレントウィンドウの幅を最大にする or 戻す
-nnoremap <Leader>wh :<C-u>call ToggleHorizontalFullWindowMode()<CR>
+nnoremap <silent> <Leader>wh :<C-u>call ToggleHorizontalFullWindowMode()<CR>
 
 " 常にカレントウィンドウの高さを最大にする or 戻す
-nnoremap <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
-
-" 開いているファイルをスクリプトとして実行
-nnoremap <Leader>x :<C-u>QuickRun<CR>
+nnoremap <silent> <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 
 " ペーストモード切り替え
-nnoremap <Leader>p :<C-u>call TogglePasteMode()<CR>
+nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
+
+" NERDTree
+nnoremap <silent> <Leader>f :<C-u>NERDTreeToggle<CR>
+
+" vim-indent-guides
+nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
 " memolist.vim
-nnoremap <Leader>mn  :MemoNew<CR>
-nnoremap <Leader>ml  :MemoList<CR>
-nnoremap <Leader>mg  :MemoGrep<CR>
+nnoremap <silent> <Leader>mn  :<C-u>MemoNew<CR>
+nnoremap <silent> <Leader>ml  :<C-u>MemoList<CR>
+nnoremap <silent> <Leader>mg  :<C-u>MemoGrep<CR>
+
+" fzf.vim
+nnoremap <silent> <Leader>fb :<C-u>Buffers<CR>
+nnoremap <silent> <Leader>ff :<C-u>Files<CR>
+nnoremap <silent> <Leader>ft :<C-u>Tags<CR>
+
+" vim-quickrun
+nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
 
 " --- 基本オプション ---
