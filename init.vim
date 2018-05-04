@@ -26,9 +26,10 @@ endif
 call MkdirIfNoExists(s:config_dir)
 
 " ディレクトリ作成
-for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template']
+for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template', 'snips']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
 endfor
+
 
 " ------------------
 "   プラグイン管理
@@ -63,6 +64,7 @@ call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('junegunn/vim-easy-align')
 call dein#add('glidenote/memolist.vim')
 call dein#add('junegunn/fzf.vim')
+call dein#add('SirVer/ultisnips')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -145,12 +147,13 @@ let g:indent_guides_guide_size = 1
 
 
 " --- emmet-vim ---
-let g:user_emmet_mode='a'
-let g:user_emmet_leader_key='<C-Y>'
+let g:user_emmet_mode = 'a'
+let g:user_emmet_leader_key = '<C-Y>'
 
 
 " --- fzf.vim ---
 set rtp+=/usr/local/opt/fzf
+
 
 " --- MatchTagAlways ---
 let g:mta_filetypes = {
@@ -162,6 +165,10 @@ let g:mta_filetypes = {
   \ 'blade': 1,
   \ 'vue': 1,
 \ }
+
+" --- UltiSnips ---
+let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
+let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
 
 
 " -----------
@@ -227,7 +234,7 @@ inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
 
 " 補完
-inoremap <expr><C-Space> pumvisible() ? "\<C-n>" : MyInsCompl()
+"inoremap <expr><C-Space> pumvisible() ? "\<C-n>" : MyInsCompl()
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
