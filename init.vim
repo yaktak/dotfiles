@@ -53,7 +53,6 @@ call dein#begin(s:dein_dir)
 call dein#add(s:dein_repo_dir)
 
 call dein#add('scrooloose/nerdtree')
-call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('tpope/vim-surround')
 call dein#add('cohama/lexima.vim')
@@ -65,6 +64,7 @@ call dein#add('junegunn/vim-easy-align')
 call dein#add('glidenote/memolist.vim')
 call dein#add('junegunn/fzf.vim')
 call dein#add('SirVer/ultisnips')
+call dein#add('kana/vim-submode')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -78,9 +78,11 @@ call dein#add('posva/vim-vue')
 call dein#add('tomasr/molokai')
 call dein#add('ciaranm/inkpot')
 call dein#add('jacoborus/tender.vim')
+call dein#add('jpo/vim-railscasts-theme')
 
+"call dein#add('nathanaelkane/vim-indent-guides') " シンタックスハイライトがおかしくなる？
+"call dein#add('Valloric/MatchTagAlways') " 重くなる
 "call dein#add('cocopon/vaffle.vim')
-"call dein#add('Valloric/MatchTagAlways')
 "call dein#add('vim-syntastic/syntastic')
 "call dein#add('mtscout6/syntastic-local-eslint.vim')
 "call dein#add('davidhalter/jedi-vim')
@@ -99,6 +101,7 @@ endif
 function! s:deinClean()
   if len(dein#check_clean())
       call map(dein#check_clean(), 'delete(v:val)')
+      echo 'dein clean finished'
   else
       echo '[ERR] no disabled plugins'
   endif
@@ -142,8 +145,8 @@ let g:syntastic_check_on_wq = 0
 
 
 " --- vim-indent-guides ---
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
+"let g:indent_guides_start_level = 2
+"let g:indent_guides_guide_size = 1
 
 
 " --- emmet-vim ---
@@ -254,12 +257,12 @@ let s:is_full_horizontal_win_mode = 0
 let s:is_full_vertical_win_mode = 0
 
 function! OpenConfigFile()
-    execute 'e '. s:config_file
+    execute 'tabe '. s:config_file
 endfunction
 
 if !exists('*ReloadConfigFile')
     function! ReloadConfigFile()
-        execute 'source '. s:config_file
+        execute 'bufdo source '. s:config_file
         echo s:config_file . ' loaded'
     endfunction
 endif
@@ -347,10 +350,10 @@ nnoremap <silent> <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 
 " NERDTree
-nnoremap <silent> <Leader>f :<C-u>NERDTreeToggle<CR>
+nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
 
 " vim-indent-guides
-nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
+"nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
 " memolist.vim
 nnoremap <silent> <Leader>mn  :<C-u>MemoNew<CR>
@@ -358,9 +361,9 @@ nnoremap <silent> <Leader>ml  :<C-u>MemoList<CR>
 nnoremap <silent> <Leader>mg  :<C-u>MemoGrep<CR>
 
 " fzf.vim
-nnoremap <silent> <Leader>fb :<C-u>Buffers<CR>
-nnoremap <silent> <Leader>ff :<C-u>Files<CR>
-nnoremap <silent> <Leader>ft :<C-u>Tags<CR>
+nnoremap <silent> <Leader>bff :<C-u>Buffers<CR>
+nnoremap <silent> <Leader>fff :<C-u>Files<CR>
+nnoremap <silent> <Leader>tff :<C-u>Tags<CR>
 
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
@@ -381,6 +384,7 @@ set hidden       " 隠れバッファの許可
 set undofile     " 永続的Undo機能
 "set binary noeol " 行末に勝手に改行しない
 set winminheight=0
+set norelativenumber
 
 
 " --- カーソル移動 ---
@@ -416,7 +420,7 @@ execute 'set tags='      . s:config_dir . '/tags'
 
 
 " --- セッション ---
-set sessionoptions=curdir,folds,help,localoptions,tabpages,winsize
+set sessionoptions=curdir,folds,help,localoptions,tabpages,winpos,winsize
 
 " セッションファイルがロードされていた場合、Vim終了時に現在のセッションで上書きする
 " ロードされていてもいなくても、previous.vimとして保存する
