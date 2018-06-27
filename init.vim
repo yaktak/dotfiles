@@ -406,9 +406,9 @@ set termencoding=utf8 " 端末の出力に用いられるエンコーディン�
 
 
 " --- テンプレート ---
-augroup session
+augroup template
     autocmd!
-    autocmd BufNewFile *.vue 0r s:{config_dir} . '/template/vue.txt'
+    autocmd BufNewFile *.vue execute '0r ' . s:config_dir . '/template/vue.txt'
 augroup END
 
 
