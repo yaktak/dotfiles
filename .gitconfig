@@ -59,3 +59,5 @@
     lgo = log --graph --oneline --pretty=format:'%C(bold blue)<%an>%Creset %C(yellow)%h%Creset -%C(red)%d%Creset %s'
 [http]
     sslVerify = false
+[credintial]
+	helper = cache
