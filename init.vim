@@ -117,11 +117,11 @@ let g:gsw_sessions_dir = s:config_dir . '/sessions'
 let g:gsw_save_session_confirm = 'yes'
 
 " vim起動時のセッション自動ロード設定。yes、no、confirmを設定可能でデフォルトはno。
-let g:gsw_autoload_session = 'no'
+let g:gsw_autoload_session = 'confirm'
 
 " vim起動時保存したセッションのうちローカルに同じ名前のブランチが存在しないものを削除する。
 " yes、no、confirmを設定可能でデフォルトはno。
-let g:gsw_autodelete_sessions_if_branch_not_exist = 'no'
+let g:gsw_autodelete_sessions_if_branch_not_exist = 'confirm'
 
 
 " --- Syntastic.vim ---
