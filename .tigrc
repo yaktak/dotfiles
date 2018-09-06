@@ -41,3 +41,7 @@ color diff-index        14              default
 color diff-add          40              default
 color diff-del          161             default
 color diff-chunk        190             default
+
+# Bindings
+bind main B !git rebase -i %(commit)
+bind diff B !git rebase -i %(commit)

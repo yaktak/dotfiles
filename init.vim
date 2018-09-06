@@ -53,6 +53,7 @@ call dein#begin(s:dein_dir)
 call dein#add(s:dein_repo_dir)
 
 call dein#add('scrooloose/nerdtree')
+call dein#add('scrooloose/nerdcommenter')
 call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('tpope/vim-surround')
 call dein#add('cohama/lexima.vim')
@@ -65,6 +66,7 @@ call dein#add('glidenote/memolist.vim')
 call dein#add('junegunn/fzf.vim')
 call dein#add('SirVer/ultisnips')
 call dein#add('kana/vim-submode')
+call dein#add('AndrewRadev/switch.vim')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -73,6 +75,7 @@ call dein#add('hail2u/vim-css3-syntax')
 call dein#add('othree/yajs.vim')
 call dein#add('jwalton512/vim-blade')
 call dein#add('posva/vim-vue')
+call dein#add('leafgarland/typescript-vim')
 
 " Color Schemes
 call dein#add('tomasr/molokai')
@@ -147,6 +150,11 @@ let g:syntastic_check_on_wq = 0
 " --- vim-indent-guides ---
 "let g:indent_guides_start_level = 2
 "let g:indent_guides_guide_size = 1
+
+
+" --- NERDCommenter ---
+let g:NERDSpaceDelims=1
+let g:NERDDefaultAlign='left'
 
 
 " --- emmet-vim ---
