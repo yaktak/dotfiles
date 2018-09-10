@@ -42,6 +42,12 @@ color diff-add          40              default
 color diff-del          161             default
 color diff-chunk        190             default
 
-# Bindings
+# Generic bindings
+bind generic P !git push origin
+
+# Main bindings
 bind main B !git rebase -i %(commit)
+bind main S !git reset --mixed %(commit)
+
+# Diff bindings
 bind diff B !git rebase -i %(commit)
