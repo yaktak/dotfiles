@@ -64,9 +64,9 @@ call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('junegunn/vim-easy-align')
 call dein#add('glidenote/memolist.vim')
 call dein#add('junegunn/fzf.vim')
-call dein#add('SirVer/ultisnips')
 call dein#add('kana/vim-submode')
 call dein#add('AndrewRadev/switch.vim')
+call dein#add('vim-syntastic/syntastic')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -76,18 +76,20 @@ call dein#add('othree/yajs.vim')
 call dein#add('jwalton512/vim-blade')
 call dein#add('posva/vim-vue')
 call dein#add('leafgarland/typescript-vim')
+call dein#add('digitaltoad/vim-pug')
 
 " Color Schemes
 call dein#add('tomasr/molokai')
 call dein#add('ciaranm/inkpot')
 call dein#add('jacoborus/tender.vim')
 call dein#add('jpo/vim-railscasts-theme')
+call dein#add('morhetz/gruvbox')
 
-"call dein#add('nathanaelkane/vim-indent-guides') " シンタックスハイライトがおかしくなる？
+"call dein#add('SirVer/ultisnips')
+call dein#add('nathanaelkane/vim-indent-guides') " シンタックスハイライトがおかしくなる？
 "call dein#add('Valloric/MatchTagAlways') " 重くなる
 "call dein#add('cocopon/vaffle.vim')
-"call dein#add('vim-syntastic/syntastic')
-"call dein#add('mtscout6/syntastic-local-eslint.vim')
+call dein#add('mtscout6/syntastic-local-eslint.vim')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
 "call dein#add('tpope/vim-fugitive')
@@ -130,6 +132,7 @@ let g:gsw_autodelete_sessions_if_branch_not_exist = 'confirm'
 " --- Syntastic.vim ---
 " linterの設定
 let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_typescript_checkers=['eslint']
 
 " エラー行に sign を表示
 let g:syntastic_enable_signs = 1
@@ -148,8 +151,8 @@ let g:syntastic_check_on_wq = 0
 
 
 " --- vim-indent-guides ---
-"let g:indent_guides_start_level = 2
-"let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
 
 
 " --- NERDCommenter ---
@@ -361,7 +364,7 @@ nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
 
 " vim-indent-guides
-"nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
+nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
 " memolist.vim
 nnoremap <silent> <Leader>mn  :<C-u>MemoNew<CR>
@@ -378,7 +381,9 @@ nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
 
 " --- 基本オプション ---
-colorscheme tender
+colorscheme gruvbox
+set background=dark    " Setting dark mode
+let g:gruvbox_contrast_dark = 'hard'
 syntax on
 
 " [Backspace] で既存の文字を削除できるように設定
@@ -561,6 +566,7 @@ augroup indent
     autocmd FileType sass       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType scss       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType vue        setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 
