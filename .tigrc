@@ -55,4 +55,3 @@ bind branch d !?git branch -d %(branch)
 bind branch D !?git branch -D %(branch)
 
 # Diff bindings
-bind diff B !git rebase -i %(commit)

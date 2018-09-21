@@ -67,6 +67,7 @@ call dein#add('junegunn/fzf.vim')
 call dein#add('kana/vim-submode')
 call dein#add('AndrewRadev/switch.vim')
 call dein#add('vim-syntastic/syntastic')
+call dein#add('tpope/vim-fugitive')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -562,6 +563,7 @@ augroup indent
     autocmd FileType css        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType html       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType pug        setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType ruby       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType sass       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType scss       setlocal tabstop=2 softtabstop=2 shiftwidth=2
