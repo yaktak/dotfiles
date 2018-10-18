@@ -70,6 +70,7 @@ call dein#add('vim-syntastic/syntastic')
 call dein#add('tpope/vim-fugitive')
 call dein#add('vim-scripts/SQLUtilities')
 call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入れておく
+call dein#add('Shougo/denite.nvim')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -479,6 +480,9 @@ set incsearch  " インクリメンタル検索を有効化
 set ignorecase " 大文字と小文字を区別しない
 set smartcase  " 小文字のときのみ区別しない
 set gdefault   " 置換の時 g オプションをデフォルトで有効にする
+if has('nvim')
+    set inccommand=split
+endif
 
 
 " --- タブ ---
