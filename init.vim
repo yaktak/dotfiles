@@ -68,6 +68,8 @@ call dein#add('kana/vim-submode')
 call dein#add('AndrewRadev/switch.vim')
 call dein#add('vim-syntastic/syntastic')
 call dein#add('tpope/vim-fugitive')
+call dein#add('vim-scripts/SQLUtilities')
+call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入れておく
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -189,7 +191,7 @@ let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
 " -----------
 "   Vim設定
 " -----------
-let s:win_width_min=50
+let s:win_width_min=100
 let s:win_height_min=20
 
 " --- キーマッピング ---
@@ -275,7 +277,6 @@ endfunction
 if !exists('*ReloadConfigFile')
     function! ReloadConfigFile()
         execute 'bufdo source '. s:config_file
-        echo s:config_file . ' loaded'
     endfunction
 endif
 
@@ -321,7 +322,7 @@ function! ToggleVerticalFullWindowMode()
 endfunction
 
 function! TogglePasteMode()
-    if &paste == 'paste'
+    if &paste == 1
         set nopaste
         echo 'Paste mode off'
     else
@@ -386,6 +387,10 @@ colorscheme gruvbox
 set background=dark    " Setting dark mode
 let g:gruvbox_contrast_dark = 'hard'
 syntax on
+
+" 先にファイルのコピーを作ってバックアップにして、更新した内容は元のファイルに上書きする
+" yes にしておくと問題が少ない
+set backupcopy=yes
 
 " [Backspace] で既存の文字を削除できるように設定
 "   start  - 既存の文字を削除できるように設定

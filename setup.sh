@@ -22,3 +22,9 @@ for f in *; do
     [[ "$f" == ".DS_Store" ]] && continue
     ln -s "$DOT_FILES/$f" "$HOME/$f"
 done
+
+if !(type "git" > /dev/null 2>&1); then
+    echo "git not found"
+fi
+
+git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
