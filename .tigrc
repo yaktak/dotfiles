@@ -47,13 +47,15 @@ bind generic P !git push origin
 
 # Main bindings
 bind main A !git commit --amend
-bind main B !git rebase -i %(commit)
-bind main C !git checkout %(commit)
-bind main S !?git reset --mixed %(commit)
-bind main V !?git revert %(commit)
+bind main B ?git rebase -i %(commit)
+bind main O ?git checkout %(commit)
+bind main S ?git reset --mixed %(commit)
+bind main V ?git revert %(commit)
 
 # Branch bindings
-bind branch d !?git branch -d %(branch)
-bind branch D !?git branch -D %(branch)
+bind branch d ?git branch -d %(branch)
+bind branch D ?git branch -D %(branch)
 
 # Diff bindings
+
+# Status bindings

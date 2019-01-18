@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
-    name = yaktak
-    email = yakei034@gmail.com
+	name = yaktak
+	email = 13303430+yaktak@users.noreply.github.com
 [push]
     default = current
 [core]
@@ -61,3 +61,10 @@
     sslVerify = false
 [credintial]
 	helper = cache
+[status]
+	displaycommentprefix = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

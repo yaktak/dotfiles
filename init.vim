@@ -1,7 +1,7 @@
 " ----------
 "   初期化
 " ----------
-let s:config_dir = ''
+let s:config_dir = '' "{{{
 let s:config_file = ''
 
 filetype off
@@ -28,13 +28,13 @@ call MkdirIfNoExists(s:config_dir)
 " ディレクトリ作成
 for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template', 'snips']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
-endfor
+endfor"}}}
 
 
 " ------------------
 "   プラグイン管理
 " ------------------
-" --- dein ---
+" --- dein ---{{{
 let s:dein_dir = s:config_dir . '/plugins/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
@@ -71,6 +71,7 @@ call dein#add('tpope/vim-fugitive')
 call dein#add('vim-scripts/SQLUtilities')
 call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入れておく
 call dein#add('Shougo/denite.nvim')
+call dein#add('bronson/vim-trailing-whitespace')
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -81,6 +82,7 @@ call dein#add('jwalton512/vim-blade')
 call dein#add('posva/vim-vue')
 call dein#add('leafgarland/typescript-vim')
 call dein#add('digitaltoad/vim-pug')
+call dein#add('majutsushi/tagbar')
 
 " Color Schemes
 call dein#add('tomasr/molokai')
@@ -132,6 +134,8 @@ let g:gsw_autoload_session = 'confirm'
 " yes、no、confirmを設定可能でデフォルトはno。
 let g:gsw_autodelete_sessions_if_branch_not_exist = 'confirm'
 
+" --- switch.vim ---
+let g:switch_mapping = 'gs'
 
 " --- Syntastic.vim ---
 " linterの設定
@@ -148,7 +152,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 
 " ファイルを開いた時にチェックを実行する
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 
 " :wq で終了する時もチェックする
 let g:syntastic_check_on_wq = 0
@@ -163,6 +167,8 @@ let g:indent_guides_guide_size = 1
 let g:NERDSpaceDelims=1
 let g:NERDDefaultAlign='left'
 
+" --- NERDTree ---
+let g:NERDTreeWinSize = 50
 
 " --- emmet-vim ---
 let g:user_emmet_mode = 'a'
@@ -186,13 +192,13 @@ let g:mta_filetypes = {
 
 " --- UltiSnips ---
 let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
-let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
+let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']"}}}
 
 
 " -----------
 "   Vim設定
 " -----------
-let s:win_width_min=100
+let s:win_width_min=100 "{{{
 let s:win_height_min=20
 
 " --- キーマッピング ---
@@ -349,7 +355,7 @@ nnoremap <silent> <Leader>rp "0p
 nnoremap <Leader><Space> o<ESC>
 
 " 現在行と列のハイライトを切替
-nnoremap <silent> <Leader>cl :<C-u>setlocal cursorline! cursorcolumn!<CR>
+nnoremap <silent> <Leader>ch :<C-u>setlocal cursorline! cursorcolumn!<CR>
 
 " 常にカレントウィンドウの大きさを最大にする or 戻す
 nnoremap <silent> <Leader>wa :<C-u>call ToggleFullWindowMode()<CR>
@@ -365,6 +371,9 @@ nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 
 " NERDTree
 nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
+
+" TagBar
+noremap <silent> <Leader>ta :<C-u>TagbarToggle<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -388,6 +397,11 @@ colorscheme gruvbox
 set background=dark    " Setting dark mode
 let g:gruvbox_contrast_dark = 'hard'
 syntax on
+set redrawtime=10000 "重い再描画の際に syntax off になるまでの時間
+augroup basic
+    autocmd!
+    autocmd FileType vue syntax sync fromstart
+augroup END
 
 " 先にファイルのコピーを作ってバックアップにして、更新した内容は元のファイルに上書きする
 " yes にしておくと問題が少ない
@@ -405,7 +419,13 @@ set undofile     " 永続的Undo機能
 "set binary noeol " 行末に勝手に改行しない
 set winminheight=0
 set norelativenumber
+"set ambiwidth=double " □や○文字が崩れる問題を解決
+set clipboard+=unnamedplus
 
+" --- diff ---
+if &diff " vimdiff のとき
+    set diffopt+=iwhite " 空白を無視
+endif
 
 " --- カーソル移動 ---
 set scrolloff=8      " 上下8行の視界を確保
@@ -424,6 +444,9 @@ set termencoding=utf8 " 端末の出力に用いられるエンコーディン�
 "hi SpellBad cterm=underline " 間違いの表示をアンダーラインに
 "hi clear SpellBad
 
+
+" --- 折りたたみ ---
+set foldmethod=manual
 
 " --- テンプレート ---
 augroup template
@@ -590,11 +613,13 @@ augroup linting
 
     " エラーがあればQuickFixに表示
     autocmd BufWritePost *.php silent make | if len(getqflist()) != 1 | copen | else | cclose | endif
-augroup END
+augroup END"}}}
 
 
-" --- ユーザー定義コマンド ---
-" :Bt <N>...でバッファ番号からバックグラウンドにタブを開く
+" ------------------------
+"   ユーザー定義コマンド
+" ------------------------
+" :Bt <N>...でバッファ番号からバックグラウンドにタブを開く{{{
 command! -nargs=+ Bt call BufsToTabs(<f-args>)
 function! BufsToTabs(...)
     let l:c_tab = tabpagenr()
@@ -606,5 +631,6 @@ function! BufsToTabs(...)
             execute 'tabedit ' . l:name 
         endif
     endfor
-    execute l:c_tab . ' tabnext'
-endfunction
+endfunction"}}}
+
+" vim:set foldmethod=marker:
