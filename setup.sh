@@ -28,18 +28,18 @@ done
 
 if [ -n "$(command -v yum)" ]; then
     sudo yum install -y epel-release
-    sudo yum install -y git wget vim automake
+    sudo yum install -y git wget vim automake libevent-devel ncurses-devel
 elif [ -n "$(command -v apt)" ]; then
     sudo apt update >/dev/null
-    sudo apt install -y git wget vim automake
+    sudo apt install -y git wget vim automake libevent-dev libncurses5-dev
 fi
 
-git clone https://github.com/tmux/tmux.git
-cd ./tmux
-sh autogen.sh
-./configure
-make
-sudo make install
-rm -rf ./tmux
-
-git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+if [ ! -d tmux ]; then
+    git clone https://github.com/tmux/tmux.git
+    cd ./tmux
+    sh autogen.sh
+    ./configure
+    make
+    sudo make install
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+fi
