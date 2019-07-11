@@ -28,7 +28,8 @@ call MkdirIfNoExists(s:config_dir)
 " ディレクトリ作成
 for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template', 'snips']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
-endfor"}}}
+endfor
+"}}}
 
 
 " ------------------
@@ -56,7 +57,7 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('scrooloose/nerdcommenter')
 call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('tpope/vim-surround')
-call dein#add('cohama/lexima.vim')
+call dein#add('cohama/lexima.vim') " 閉じ括弧補完
 call dein#add('thinca/vim-quickrun')
 call dein#add('ToruIwashita/git-switcher.vim')
 call dein#add('mattn/emmet-vim')
@@ -64,14 +65,13 @@ call dein#add('flyinshadow/php_localvarcheck.vim')
 call dein#add('junegunn/vim-easy-align')
 call dein#add('glidenote/memolist.vim')
 call dein#add('junegunn/fzf.vim')
-call dein#add('kana/vim-submode')
 call dein#add('AndrewRadev/switch.vim')
 call dein#add('vim-syntastic/syntastic')
 call dein#add('tpope/vim-fugitive')
 call dein#add('vim-scripts/SQLUtilities')
 call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入れておく
 call dein#add('Shougo/denite.nvim')
-call dein#add('bronson/vim-trailing-whitespace')
+call dein#add('bronson/vim-trailing-whitespace') " 末尾の空白を赤くする
 
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
@@ -100,7 +100,6 @@ call dein#add('mtscout6/syntastic-local-eslint.vim')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
 "call dein#add('tpope/vim-fugitive')
-"call dein#add('Shougo/denite.nvim')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
 
 call dein#end()
@@ -193,7 +192,8 @@ let g:mta_filetypes = {
 
 " --- UltiSnips ---
 let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
-let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']"}}}
+let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
+"}}}
 
 
 " -----------
@@ -629,7 +629,8 @@ augroup linting
 
     " エラーがあればQuickFixに表示
     autocmd BufWritePost *.php silent make | if len(getqflist()) != 1 | copen | else | cclose | endif
-augroup END"}}}
+augroup END
+"}}}
 
 
 " ------------------------
@@ -647,6 +648,7 @@ function! BufsToTabs(...)
             execute 'tabedit ' . l:name 
         endif
     endfor
-endfunction"}}}
+endfunction
+"}}}
 
 " vim:set foldmethod=marker:
