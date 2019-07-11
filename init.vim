@@ -83,6 +83,7 @@ call dein#add('posva/vim-vue')
 call dein#add('leafgarland/typescript-vim')
 call dein#add('digitaltoad/vim-pug')
 call dein#add('majutsushi/tagbar')
+call dein#add('chr4/nginx.vim')
 
 " Color Schemes
 call dein#add('tomasr/molokai')
@@ -330,11 +331,21 @@ endfunction
 
 function! TogglePasteMode()
     if &paste == 1
-        set nopaste
+       set nopaste
         echo 'Paste mode off'
     else
         set paste
         echo 'Paste mode on'
+    endif
+endfunction
+
+function! ToggleWrap()
+    if &wrap == 1
+       set nowrap
+        echo 'wrap off'
+    else
+        set wrap
+        echo 'wrap on'
     endif
 endfunction
 
@@ -368,6 +379,9 @@ nnoremap <silent> <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 
 " ペーストモード切り替え
 nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
+
+" 折返しの有無の切り替え
+nnoremap <silent> <Leader>wt :<C-u>call ToggleWrap()<CR>
 
 " NERDTree
 nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
@@ -421,6 +435,7 @@ set winminheight=0
 set norelativenumber
 "set ambiwidth=double " □や○文字が崩れる問題を解決
 set clipboard+=unnamedplus
+set breakindent " 行の折り返し時にインデントを考慮する
 
 " --- diff ---
 if &diff " vimdiff のとき
