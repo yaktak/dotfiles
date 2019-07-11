@@ -198,8 +198,8 @@ let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']"}}}
 " -----------
 "   Vim設定
 " -----------
-let s:win_width_min=100 "{{{
-let s:win_height_min=20
+let s:win_width_min=20 "{{{
+let s:win_height_min=10
 
 " --- キーマッピング ---
 function! MyInsCompl()
@@ -519,6 +519,7 @@ set showtabline=1
 " --- ウィンドウ ---
 set splitbelow   " 新しいウィンドウを下に開く
 set splitright   " 新しいウィンドウを右に開く
+set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
 
 " ウィンドウの最小幅
 execute 'set winwidth=' . s:win_width_min
@@ -538,7 +539,7 @@ function! InitStatusLine()
     " %h ヘルプページなら"[HELP]"を表示
     " %w プレビューページなら"[Preview]"を表示
     " %= これ以降は右寄せで表示
-    set statusline=%<%f%m%r%h%w%=
+    set statusline=%<%f%m%r%h%w\ \ %=
 endfunction
 
 function! SwitchStatusLineCurrent()
