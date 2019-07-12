@@ -73,6 +73,9 @@ call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入
 call dein#add('Shougo/denite.nvim')
 call dein#add('bronson/vim-trailing-whitespace')
 
+" markdown で言語をハイライトする
+call dein#add('joker1007/vim-markdown-quote-syntax')
+
 " シンタックスハイライト系
 call dein#add('othree/html5.vim')
 call dein#add('ap/vim-css-color')
@@ -84,6 +87,7 @@ call dein#add('leafgarland/typescript-vim')
 call dein#add('digitaltoad/vim-pug')
 call dein#add('majutsushi/tagbar')
 call dein#add('chr4/nginx.vim')
+call dein#add('dag/vim-fish')
 
 " Color Schemes
 call dein#add('tomasr/molokai')
@@ -166,7 +170,9 @@ let g:indent_guides_guide_size = 1
 
 " --- NERDCommenter ---
 let g:NERDSpaceDelims=1
+let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign='left'
+let g:NERDCustomDelimiters = { 'vue': { 'left': '//' } }
 
 " --- NERDTree ---
 let g:NERDTreeWinSize = 50
