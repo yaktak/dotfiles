@@ -49,82 +49,82 @@ if !isdirectory(s:dein_repo_dir)
 endif
 execute 'set runtimepath^=' . s:dein_repo_dir
 
-" 管理するプラグイン
 call dein#begin(s:dein_dir)
 call dein#add(s:dein_repo_dir)
 
-call dein#add('scrooloose/nerdtree')
-call dein#add('scrooloose/nerdcommenter')
-call dein#add('michaeljsmith/vim-indent-object')
-call dein#add('tpope/vim-surround')
-call dein#add('cohama/lexima.vim') " 閉じ括弧補完
-call dein#add('thinca/vim-quickrun')
-call dein#add('ToruIwashita/git-switcher.vim')
-call dein#add('mattn/emmet-vim')
-call dein#add('flyinshadow/php_localvarcheck.vim')
-call dein#add('junegunn/vim-easy-align')
-call dein#add('glidenote/memolist.vim')
-call dein#add('junegunn/fzf.vim')
-call dein#add('AndrewRadev/switch.vim')
-call dein#add('vim-syntastic/syntastic')
-call dein#add('tpope/vim-fugitive')
-call dein#add('vim-scripts/SQLUtilities')
-call dein#add('vim-scripts/Align') " SQLUtilities が依存しているので入れておく
-call dein#add('Shougo/denite.nvim')
+call dein#add('ap/vim-css-color') " css の16進数に色をつける
 call dein#add('bronson/vim-trailing-whitespace') " 末尾の空白を赤くする
-
-" markdown で言語をハイライトする
-call dein#add('joker1007/vim-markdown-quote-syntax')
+call dein#add('cohama/lexima.vim') " 閉じ括弧を補完
+call dein#add('glidenote/memolist.vim') " メモ管理
+call dein#add('junegunn/vim-easy-align')
+call dein#add('michaeljsmith/vim-indent-object')
+call dein#add('mtscout6/syntastic-local-eslint.vim')
+call dein#add('thinca/vim-quickrun')
+call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-surround')
 
 " シンタックスハイライト系
-call dein#add('othree/html5.vim')
-call dein#add('ap/vim-css-color')
-call dein#add('hail2u/vim-css3-syntax')
-call dein#add('othree/yajs.vim')
-call dein#add('jwalton512/vim-blade')
-call dein#add('posva/vim-vue')
-call dein#add('leafgarland/typescript-vim')
-call dein#add('digitaltoad/vim-pug')
-call dein#add('majutsushi/tagbar')
-call dein#add('chr4/nginx.vim')
-call dein#add('dag/vim-fish')
+call dein#add('chr4/nginx.vim') " nginx
+call dein#add('dag/vim-fish') " fish config
+call dein#add('digitaltoad/vim-pug') " pug
+call dein#add('hail2u/vim-css3-syntax') " css
+call dein#add('joker1007/vim-markdown-quote-syntax') " markdown 内のコード
+call dein#add('jwalton512/vim-blade') " blade
+call dein#add('leafgarland/typescript-vim') " TypeScript
+call dein#add('othree/html5.vim') " HTML
+call dein#add('othree/yajs.vim') " JavaScript
+call dein#add('posva/vim-vue') " Vue
 
 " Color Schemes
-call dein#add('tomasr/molokai')
-call dein#add('ciaranm/inkpot')
 call dein#add('jacoborus/tender.vim')
-call dein#add('jpo/vim-railscasts-theme')
 call dein#add('morhetz/gruvbox')
+call dein#add('tomasr/molokai')
 
-"call dein#add('SirVer/ultisnips')
-call dein#add('nathanaelkane/vim-indent-guides') " シンタックスハイライトがおかしくなる？
-"call dein#add('Valloric/MatchTagAlways') " 重くなる
 "call dein#add('cocopon/vaffle.vim')
-call dein#add('mtscout6/syntastic-local-eslint.vim')
+"call dein#add('majutsushi/tagbar')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
-"call dein#add('tpope/vim-fugitive')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
 
-call dein#end()
+" --- denite ---
+call dein#add('Shougo/denite.nvim')
 
-" 未インストールのプラグインをインストール
-if dein#check_install()
-    call dein#install()
-endif
+" Change file/rec command.
+call denite#custom#var('file/rec', 'command',
+\ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
+\  (has('win32') ? '-g:' : '-g='), ''])
 
-function! s:deinClean()
-  if len(dein#check_clean())
-      call map(dein#check_clean(), 'delete(v:val)')
-      echo 'dein clean finished'
-  else
-      echo '[ERR] no disabled plugins'
-  endif
+" Pt command on grep source
+call denite#custom#var('grep', 'command', ['pt'])
+call denite#custom#var('grep', 'default_opts',
+        \ ['--nogroup', '--nocolor', '--smart-case', '--hidden', '--ignore=.git'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+call denite#custom#source('grep', 'args', ['', '', '!'])
+
+" Change mappings.
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
 endfunction
-command! DeinClean :call s:deinClean()
 
+" --- git-switcher.vim ---
+call dein#add('ToruIwashita/git-switcher.vim')
 
-" -- git-switcher.vim ---
 " セッションを保存するディレクトリパス。
 let g:gsw_sessions_dir = s:config_dir . '/sessions'
 
@@ -139,9 +139,12 @@ let g:gsw_autoload_session = 'confirm'
 let g:gsw_autodelete_sessions_if_branch_not_exist = 'confirm'
 
 " --- switch.vim ---
+call dein#add('AndrewRadev/switch.vim') " true/false などを切り替える
 let g:switch_mapping = 'gs'
 
 " --- Syntastic.vim ---
+call dein#add('vim-syntastic/syntastic')
+
 " linterの設定
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_typescript_checkers=['eslint']
@@ -161,31 +164,29 @@ let g:syntastic_check_on_open = 0
 " :wq で終了する時もチェックする
 let g:syntastic_check_on_wq = 0
 
-
 " --- vim-indent-guides ---
+call dein#add('nathanaelkane/vim-indent-guides') " シンタックスハイライトがおかしくなる？
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
-
 " --- NERDCommenter ---
+call dein#add('scrooloose/nerdcommenter')
 let g:NERDSpaceDelims=1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign='left'
 let g:NERDCustomDelimiters = { 'vue': { 'left': '//' } }
 
 " --- NERDTree ---
+call dein#add('scrooloose/nerdtree')
 let g:NERDTreeWinSize = 50
 
 " --- emmet-vim ---
+call dein#add('mattn/emmet-vim')
 let g:user_emmet_mode = 'a'
 let g:user_emmet_leader_key = '<C-Y>'
 
-
-" --- fzf.vim ---
-set rtp+=/usr/local/opt/fzf
-
-
 " --- MatchTagAlways ---
+call dein#add('Valloric/MatchTagAlways')
 let g:mta_filetypes = {
   \ 'html': 1,
   \ 'xhtml': 1,
@@ -196,11 +197,34 @@ let g:mta_filetypes = {
   \ 'vue': 1,
 \ }
 
-" --- UltiSnips ---
-let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
-let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
-"}}}
+" --- fzf.vim ---
+" call dein#add('junegunn/fzf.vim')
+" set rtp+=/usr/local/opt/fzf
 
+" --- UltiSnips ---
+" call dein#add('SirVer/ultisnips')
+" let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
+" let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
+
+call dein#end()
+
+" 未インストールのプラグインをインストール
+if dein#check_install()
+    call dein#install()
+endif
+
+" アンイストール用コマンド
+function! s:deinClean()
+  if len(dein#check_clean())
+      call map(dein#check_clean(), 'delete(v:val)')
+      call dein#recache_runtimepath()
+      echo 'dein clean finished'
+  else
+      echo '[ERR] no disabled plugins'
+  endif
+endfunction
+command! DeinClean :call s:deinClean()
+"}}}
 
 " -----------
 "   Vim設定
@@ -389,11 +413,36 @@ nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 " 折返しの有無の切り替え
 nnoremap <silent> <Leader>wt :<C-u>call ToggleWrap()<CR>
 
+" Denite
+" s[ource] b[ffer]
+nnoremap <silent> <Leader>sb<Space> :<C-u>Denite buffer<CR>
+
+" s[ource] c[mmand] history
+nnoremap <silent> <Leader>sc<Space> :<C-u>Denite command_history<CR>
+
+" s[ource] d[irectory]
+nnoremap <silent> <Leader>sd<Space> :<C-u>Denite directory_rec<CR>
+
+" s[ource] g[rep]
+nnoremap <silent> <Leader>sg<Space> :<C-u>Denite grep<CR>
+
+" s[ource] f[ile]
+nnoremap <silent> <Leader>sf<Space> :<C-u>Denite file/rec<CR>
+
+" s[ource] f[ile] t[ype]
+nnoremap <silent> <Leader>sft<Space> :<C-u>Denite filetype<CR>
+
+" s[ource] l[ine]
+nnoremap <silent> <Leader>sl<Space> :<C-u>Denite line<CR>
+
+" s[ource] o[utline]
+nnoremap <silent> <Leader>so<Space> :<C-u>Denite outline<CR>
+
+" s[ource] r[egister]
+nnoremap <silent> <Leader>sr<Space> :<C-u>Denite register<CR>
+
 " NERDTree
 nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
-
-" TagBar
-noremap <silent> <Leader>ta :<C-u>TagbarToggle<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -403,14 +452,13 @@ nnoremap <silent> <Leader>mn  :<C-u>MemoNew<CR>
 nnoremap <silent> <Leader>ml  :<C-u>MemoList<CR>
 nnoremap <silent> <Leader>mg  :<C-u>MemoGrep<CR>
 
-" fzf.vim
-nnoremap <silent> <Leader>bff :<C-u>Buffers<CR>
-nnoremap <silent> <Leader>fff :<C-u>Files<CR>
-nnoremap <silent> <Leader>tff :<C-u>Tags<CR>
-
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
+" fzf.vim
+" nnoremap <silent> <Leader>bff :<C-u>Buffers<CR>
+" nnoremap <silent> <Leader>fff :<C-u>Files<CR>
+" nnoremap <silent> <Leader>tff :<C-u>Tags<CR>
 
 " --- 基本オプション ---
 colorscheme gruvbox
@@ -638,7 +686,6 @@ augroup linting
 augroup END
 "}}}
 
-
 " ------------------------
 "   ユーザー定義コマンド
 " ------------------------
@@ -651,7 +698,7 @@ function! BufsToTabs(...)
             echoerr "No such buffers number: " . l:e
         else
             let l:name = bufname(str2nr(l:e))
-            execute 'tabedit ' . l:name 
+            execute 'tabedit ' . l:name
         endif
     endfor
 endfunction
