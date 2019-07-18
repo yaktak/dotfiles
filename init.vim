@@ -423,7 +423,7 @@ nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 nnoremap <silent> <Leader>wt :<C-u>call ToggleWrap()<CR>
 
 " Denite
-" s[ource] b[ffer]
+" s[ource] b[uffer]
 nnoremap <silent> <Leader>sb<Space> :<C-u>Denite buffer<CR>
 
 " s[ource] c[mmand] history
@@ -433,7 +433,7 @@ nnoremap <silent> <Leader>sc<Space> :<C-u>Denite command_history<CR>
 nnoremap <silent> <Leader>sd<Space> :<C-u>Denite directory_rec<CR>
 
 " s[ource] g[rep]
-nnoremap <silent> <Leader>sg<Space> :<C-u>Denite grep<CR>
+nnoremap <silent> <Leader>sg<Space> :<C-u>Denite -auto-preview grep<CR>
 
 " s[ource] f[ile]
 nnoremap <silent> <Leader>sf<Space> :<C-u>Denite file/rec<CR>
@@ -499,6 +499,7 @@ set norelativenumber
 "set ambiwidth=double " □や○文字が崩れる問題を解決
 set clipboard+=unnamedplus
 set breakindent " 行の折り返し時にインデントを考慮する
+set shortmess-=S
 
 " --- diff ---
 if &diff " vimdiff のとき
