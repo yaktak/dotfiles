@@ -86,6 +86,15 @@ call dein#add('tomasr/molokai')
 "call dein#add('wincent/command-t')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
 
+" --- soramugi/auto-ctags ---
+call dein#add('soramugi/auto-ctags.vim')
+
+" ファイルに書き込む際にタグを作成
+let g:auto_ctags = 1
+
+" ctags 実行時のオプション
+let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes -f .tags'
+
 " --- denite ---
 call dein#add('Shougo/denite.nvim')
 
@@ -528,7 +537,10 @@ augroup END
 execute 'set directory=' . s:config_dir . '/tmp'
 execute 'set backupdir=' . s:config_dir . '/tmp'
 execute 'set undodir='   . s:config_dir . '/undo'
-execute 'set tags='      . s:config_dir . '/tags'
+" execute 'set tags='      . s:config_dir . '/tags'
+
+" --- タグ ---
+set tags=./tags;
 
 
 " --- セッション ---

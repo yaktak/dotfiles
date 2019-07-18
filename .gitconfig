@@ -5,7 +5,7 @@
 [push]
     default = current
 [core]
-    excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore_global
     editor = vim
 [color]
     diff = auto
