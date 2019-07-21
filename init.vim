@@ -466,6 +466,9 @@ nnoremap <silent> <Leader>mg  :<C-u>MemoGrep<CR>
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
+" majutsushi/tagbar
+nnoremap <silent> <Leader>tb :<C-u>TagbarToggle<CR>
+
 " fzf.vim
 " nnoremap <silent> <Leader>bff :<C-u>Buffers<CR>
 " nnoremap <silent> <Leader>fff :<C-u>Files<CR>
