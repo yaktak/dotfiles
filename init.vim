@@ -81,10 +81,12 @@ call dein#add('morhetz/gruvbox')
 call dein#add('tomasr/molokai')
 
 "call dein#add('cocopon/vaffle.vim')
-"call dein#add('majutsushi/tagbar')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
+"
+" --- majutsushi/tagbar ---
+call dein#add('majutsushi/tagbar')
 
 " --- soramugi/auto-ctags ---
 call dein#add('soramugi/auto-ctags.vim')
@@ -92,21 +94,21 @@ call dein#add('soramugi/auto-ctags.vim')
 " ファイルに書き込む際にタグを作成
 let g:auto_ctags = 1
 
-" ctags 実行時のオプション
-let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes -f .tags'
+" ctags のオプションを指定
+let g:auto_ctags_tags_args = []
 
 " --- denite ---
 call dein#add('Shougo/denite.nvim')
 
 " Change file/rec command.
 call denite#custom#var('file/rec', 'command',
-\ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
-\  (has('win32') ? '-g:' : '-g='), ''])
+            \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
+            \  (has('win32') ? '-g:' : '-g='), ''])
 
 " Pt command on grep source
 call denite#custom#var('grep', 'command', ['pt'])
 call denite#custom#var('grep', 'default_opts',
-        \ ['--nogroup', '--nocolor', '--smart-case', '--hidden', '--ignore=.git'])
+            \ ['--nogroup', '--nocolor', '--smart-case', '--hidden', '--ignore=.git'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
@@ -118,17 +120,17 @@ call denite#custom#source('grep', 'args', ['', '', '!'])
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
+              \ denite#do_map('do_action')
   nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
+              \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
+              \ denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
+              \ denite#do_map('quit')
   nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
+              \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
+              \ denite#do_map('toggle_select').'j'
 endfunction
 
 " --- git-switcher.vim ---
@@ -541,7 +543,9 @@ execute 'set undodir='   . s:config_dir . '/undo'
 " execute 'set tags='      . s:config_dir . '/tags'
 
 " --- タグ ---
-set tags=./tags;
+set tags=tags
+set tagbsearch " タグファイル検索時に二分探索を使う
+set tagcase=ignore " タグファイルの検索
 
 
 " --- セッション ---
@@ -580,11 +584,11 @@ set listchars=tab:>-,trail:-,eol:↲
 
 
 " --- 検索 / 置換 ---
-set hlsearch   " 検索キーワードをハイライト
-set incsearch  " インクリメンタル検索を有効化
-set ignorecase " 大文字と小文字を区別しない
-set smartcase  " 小文字のときのみ区別しない
-set gdefault   " 置換の時 g オプションをデフォルトで有効にする
+set hlsearch " 検索キーワードをハイライト
+set incsearch " インクリメンタル検索を有効化
+set ignorecase " case-insensitive で検索する
+set smartcase " 検索パターンが upper-case の場合は case-sensitive にする
+set gdefault " 置換の時 g オプションをデフォルトで有効にする
 if has('nvim')
     set inccommand=split
 endif
