@@ -2,6 +2,9 @@
 --exclude=*.min.js
 --exclude=.git
 --exclude=node_modules
+--exclude=vendor
+--exclude=public
+--exclude=resources/assets/js
 
 # タグを作成する言語
 --languages=javascript,php,python,typescript
