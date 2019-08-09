@@ -84,7 +84,12 @@ call dein#add('tomasr/molokai')
 "call dein#add('davidhalter/jedi-vim')
 "call dein#add('wincent/command-t')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
-"
+
+" --- bfredl/nvim-miniyank ---
+call dein#add('bfredl/nvim-miniyank')
+map p <Plug>(miniyank-autoput)
+map P <Plug>(miniyank-autoPut)
+
 " --- majutsushi/tagbar ---
 call dein#add('majutsushi/tagbar')
 
@@ -207,6 +212,9 @@ let g:mta_filetypes = {
   \ 'blade': 1,
   \ 'vue': 1,
 \ }
+
+" --- tpope/vim-abolish ---
+call dein#add('tpope/vim-abolish')
 
 " --- fzf.vim ---
 " call dein#add('junegunn/fzf.vim')
