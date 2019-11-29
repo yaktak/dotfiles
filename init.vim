@@ -106,9 +106,9 @@ let g:auto_ctags_tags_args = []
 " --- denite ---
 call dein#add('Shougo/denite.nvim')
 
-call denite#custom#option('default', {
-    \ 'split': 'floating',
-    \ })
+" call denite#custom#option('default', {
+"     \ 'split': 'floating',
+"     \ })
 
 " Change file/rec command.
 call denite#custom#var('file/rec', 'command',
