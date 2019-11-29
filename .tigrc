@@ -42,20 +42,28 @@ color diff-add          40              default
 color diff-del          161             default
 color diff-chunk        190             default
 
+# Initialize options
+# set log-options = --no-merges
+
+set main-view = \
+    date:relative-compact \
+    author:no \
+    id \
+    commit-title:graph=no,refs=yes
+
 # Generic bindings
-bind generic P !git push origin
+bind generic > ?git push origin
 
 # Main bindings
-bind main A !git commit --amend
 bind main B ?git rebase -i %(commit)
-bind main O ?git checkout %(commit)
+bind main K ?git checkout %(commit)
 bind main S ?git reset --mixed %(commit)
 bind main V ?git revert %(commit)
 
 # Branch bindings
-bind branch d ?git branch -d %(branch)
-bind branch D ?git branch -D %(branch)
 
 # Diff bindings
 
 # Status bindings
+bind status + !git commit --amend
+bind status x ?git clean -d -f
