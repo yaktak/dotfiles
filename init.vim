@@ -84,6 +84,41 @@ call dein#add('tomasr/molokai')
 "call dein#add('wincent/command-t')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
 
+" --- itchyny/lightline.vim ---
+" call dein#add('itchyny/lightline.vim')
+
+" --- Shougo/neosnippet.vim ---
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+" let g:neosnippet#disable_runtime_snippets = {
+" \   '_' : 1,
+" \ }
+let g:neosnippet#snippets_directory = s:config_dir . '/snips'
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" --- Shougo/deoplete.nvim---
+call dein#add('Shougo/deoplete.nvim')
+let g:deoplete#enable_at_startup = 1
+
 " --- bfredl/nvim-miniyank ---
 if has('nvim')
     call dein#add('bfredl/nvim-miniyank')
@@ -118,7 +153,7 @@ call denite#custom#var('file/rec', 'command',
 " Pt command on grep source
 call denite#custom#var('grep', 'command', ['pt'])
 call denite#custom#var('grep', 'default_opts',
-            \ ['--nogroup', '--nocolor', '--smart-case', '--hidden', '--ignore=.git'])
+            \ ['--nogroup', '--nocolor', '--smart-case', '--hidden', '--ignore=.git', '-e'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
@@ -263,8 +298,8 @@ command! DeinClean :call s:deinClean()
 " -----------
 "   Vim設定
 " -----------
-let s:win_width_min=20 "{{{
-let s:win_height_min=10
+let s:win_width_min = 65 "{{{
+let s:win_height_min = 25
 
 " 改行されてても上下移動
 nnoremap j gj
@@ -421,6 +456,12 @@ nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
 " 折返しの有無の切り替え
 nnoremap <silent> <Leader>wt :<C-u>call ToggleWrap()<CR>
 
+" インデントで折りたたむ
+nnoremap <silent> <Leader>fmi :<C-u>setlocal foldmethod=indent<CR>
+
+" マニュアルで折りたたむ
+nnoremap <silent> <Leader>fmm :<C-u>setlocal foldmethod=manual<CR>
+
 " Denite
 " s[ource] b[uffer]
 nnoremap <silent> <Leader>sb<Space> :<C-u>Denite buffer<CR>
@@ -448,6 +489,9 @@ nnoremap <silent> <Leader>so<Space> :<C-u>Denite outline<CR>
 
 " s[ource] r[egister]
 nnoremap <silent> <Leader>sr<Space> :<C-u>Denite register<CR>
+
+" s[ource] t[em]p[late]
+nnoremap <silent> <Leader>stp<Space> :<C-u>execute ':Denite file ' . s:config_dir . '/template/' <CR>
 
 " NERDTree
 nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
@@ -477,10 +521,6 @@ set background=dark    " Setting dark mode
 let g:gruvbox_contrast_dark = 'hard'
 syntax on
 set redrawtime=10000 "重い再描画の際に syntax off になるまでの時間
-augroup basic
-    autocmd!
-    autocmd FileType vue syntax sync fromstart
-augroup END
 
 " 先にファイルのコピーを作ってバックアップにして、更新した内容は元のファイルに上書きする
 " yes にしておくと問題が少ない
@@ -503,6 +543,11 @@ set clipboard+=unnamedplus
 set breakindent " 行の折り返し時にインデントを考慮する
 set shortmess-=S
 
+augroup basic
+    autocmd!
+    autocmd FileType vue syntax sync fromstart
+augroup END
+
 " --- diff ---
 if &diff " vimdiff のとき
     set diffopt+=iwhite " 空白を無視
@@ -513,11 +558,9 @@ set scrolloff=8      " 上下8行の視界を確保
 set sidescrolloff=16 " 左右スクロール時の視界を確保
 set sidescroll=1     " 左右スクロールは1文字ずつ行う
 
-
 " --- エンコーディング ---
 set encoding=utf8     " Vimが内部で用いるエンコーディング
 set termencoding=utf8 " 端末の出力に用いられるエンコーディング
-
 
 " --- スペルチェック（コメントだけ） ---
 "set spell                   " スペルチェックを有効にする
@@ -525,16 +568,15 @@ set termencoding=utf8 " 端末の出力に用いられるエンコーディン�
 "hi SpellBad cterm=underline " 間違いの表示をアンダーラインに
 "hi clear SpellBad
 
-
 " --- 折りたたみ ---
+set foldminlines=0
 set foldmethod=manual
 
 " --- テンプレート ---
-augroup template
-    autocmd!
-    autocmd BufNewFile *.vue execute '0r ' . s:config_dir . '/template/vue.txt'
-augroup END
-
+" augroup template
+"     autocmd!
+"     autocmd BufNewFile *.vue execute '0r ' . s:config_dir . '/template/vue.txt'
+" augroup END
 
 " --- ディレクトリ ---
 execute 'set directory=' . s:config_dir . '/tmp'
@@ -546,7 +588,6 @@ execute 'set undodir='   . s:config_dir . '/undo'
 set tags=tags
 set tagbsearch " タグファイル検索時に二分探索を使う
 set tagcase=ignore " タグファイルの検索
-
 
 " --- セッション ---
 set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsize
@@ -565,7 +606,6 @@ augroup session
     autocmd VimLeave * call StoreSession()
 augroup END
 
-
 " --- 見た目 ---
 set showmatch       " 対応する括弧を強調表示
 set nocursorline    " カーソルラインの強調表示
@@ -577,11 +617,9 @@ augroup appearance
     autocmd!
 augroup END
 
-
 " --- 不可視文字 ---
 set list
 set listchars=tab:>-,trail:-,eol:↲
-
 
 " --- 検索 / 置換 ---
 set hlsearch " 検索キーワードをハイライト
@@ -593,14 +631,12 @@ if has('nvim')
     set inccommand=split
 endif
 
-
 " --- タブ ---
 " タブページのラベルの表示方法
 " 0: 表示しない
 " 1: 2個以上タブがあるときに表示
 " 2: 常に表示
 set showtabline=1
-
 
 " --- ウィンドウ ---
 set splitbelow   " 新しいウィンドウを下に開く
@@ -612,7 +648,6 @@ execute 'set winwidth=' . s:win_width_min
 
 " ウィンドウの最小の高さ
 execute 'set winheight=' . s:win_height_min
-
 
 " --- ステータスライン ---
 set laststatus=2 " ステータスラインを常に表示
@@ -655,7 +690,6 @@ augroup END
 
 call SwitchStatusLineCurrent()
 
-
 " --- 補完機能 ---
 set nowildmenu            " 候補をビジュアル的に表示しない
 set wildmode=list:longest " 補完時の一覧表示機能有効化
@@ -665,7 +699,6 @@ augroup complement
 "    autocmd BufRead *.js setlocal dictionary=$HOME.'/.vim/dict/javascript.dict'
 "    autocmd BufRead *.php setlocal dictionary=$HOME.'/.vim/dict/php.dict'
 augroup END
-
 
 " --- インデント ---
 set tabstop=4     " タブ文字の幅
