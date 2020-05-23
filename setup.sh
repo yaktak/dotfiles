@@ -20,6 +20,7 @@ cd $DOT_FILES
 shopt -s dotglob
 for f in *; do
     [[ "$f" == "init.vim" ]] && ln -s "$DOT_FILES/$f" "$CONFIG_DIR/nvim/init.vim" && continue
+    [[ "$f" == "config.fish" ]] && ln -s "$DOT_FILES/$f" "$CONFIG_DIR/fish/config.fish" && continue
     [[ "$f" =~ ^\..+$ ]] || continue
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
