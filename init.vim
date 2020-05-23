@@ -1,7 +1,9 @@
 " ----------
 "   初期化
 " ----------
-let s:config_dir = '' "{{{
+"{{{
+
+let s:config_dir = ''
 let s:config_file = ''
 
 filetype off
@@ -29,13 +31,62 @@ call MkdirIfNoExists(s:config_dir)
 for dir in ['colors', 'dicts', 'plugins', 'sessions', 'tags', 'tmp', 'undo', 'template', 'snips']
     call MkdirIfNoExists(s:config_dir . '/' . dir)
 endfor
+
 "}}}
 
+" --------------------
+"   ユーザー定義関数
+" --------------------
+"{{{
+
+function! FilePathFull() abort
+    return FilePath('p')
+endfunction
+
+function! FilePathRelative() abort
+    return FilePath('')
+endfunction
+
+function! FilePath(suffix) abort
+    return expand('%' . (a:suffix != ''  ? (':' . a:suffix) : ''))
+endfunction
+
+function! CopyToClipboard(str) abort
+    let @* = a:str
+endfunction
+
+function! RemoveTmpFiles() abort
+    echo 'Not implemented yet'
+endfunction
+
+function! RemoveTrailingSpacesOnCurrentBuffer() abort
+    %s/\v\s+$//
+endfunction
+
+"}}}
+
+" ------------------------
+"   ユーザー定義コマンド
+" ------------------------
+"{{{
+
+command! CopyFilePathFullToClipBoard call CopyToClipboard(FilePathFull())
+command! CopyFilePathRelativeToClipBoard call CopyToClipboard(FilePathRelative())
+command! CleanTmpFiles call CleanTmpFiles()
+command! RemoveTrailingSpacesOnCurrentBuffer call RemoveTrailingSpacesOnCurrentBuffer()
+
+augroup userCommand
+    autocmd!
+augroup END
+
+"}}}
 
 " ------------------
 "   プラグイン管理
 " ------------------
-" --- dein ---{{{
+" {{{
+
+" --- dein ---
 let s:dein_dir = s:config_dir . '/plugins/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
@@ -61,6 +112,7 @@ call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('mtscout6/syntastic-local-eslint.vim')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-surround')
+call dein#add('junegunn/goyo.vim')
 
 " シンタックスハイライト系
 call dein#add('chr4/nginx.vim') " nginx
@@ -81,11 +133,7 @@ call dein#add('tomasr/molokai')
 
 "call dein#add('cocopon/vaffle.vim')
 "call dein#add('davidhalter/jedi-vim')
-"call dein#add('wincent/command-t')
 "call dein#add('editorconfig/editorconfig-vim') " なぜか.vueのインデントが4に固定される
-
-" --- itchyny/lightline.vim ---
-" call dein#add('itchyny/lightline.vim')
 
 " --- Shougo/neosnippet.vim ---
 call dein#add('Shougo/neosnippet.vim')
@@ -119,26 +167,7 @@ endif
 call dein#add('Shougo/deoplete.nvim')
 let g:deoplete#enable_at_startup = 1
 
-" --- bfredl/nvim-miniyank ---
-if has('nvim')
-    call dein#add('bfredl/nvim-miniyank')
-    map p <Plug>(miniyank-autoput)
-    map P <Plug>(miniyank-autoPut)
-endif
-
-" --- majutsushi/tagbar ---
-call dein#add('majutsushi/tagbar')
-
-" --- soramugi/auto-ctags ---
-call dein#add('soramugi/auto-ctags.vim')
-
-" ファイルに書き込む際にタグを作成
-let g:auto_ctags = 1
-
-" ctags のオプションを指定
-let g:auto_ctags_tags_args = []
-
-" --- denite ---
+" --- Shougo/denite ---
 call dein#add('Shougo/denite.nvim')
 
 " call denite#custom#option('default', {
@@ -176,7 +205,30 @@ function! s:denite_my_settings() abort
               \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <Space>
               \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> s
+              \ denite#do_map('do_action', 'split')
+  nnoremap <silent><buffer><expr> v
+              \ denite#do_map('do_action', 'vsplit')
 endfunction
+
+" --- bfredl/nvim-miniyank ---
+if has('nvim')
+    call dein#add('bfredl/nvim-miniyank')
+    map p <Plug>(miniyank-autoput)
+    map P <Plug>(miniyank-autoPut)
+endif
+
+" --- majutsushi/tagbar ---
+call dein#add('majutsushi/tagbar')
+
+" --- soramugi/auto-ctags ---
+call dein#add('soramugi/auto-ctags.vim')
+
+" ファイルに書き込む際にタグを作成
+let g:auto_ctags = 1
+
+" ctags のオプションを指定
+let g:auto_ctags_tags_args = []
 
 " --- thinca/vim-quickrun ---
 call dein#add('thinca/vim-quickrun')
@@ -239,10 +291,6 @@ let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign='left'
 let g:NERDCustomDelimiters = { 'vue': { 'left': '//' } }
 
-" --- NERDTree ---
-call dein#add('scrooloose/nerdtree')
-let g:NERDTreeWinSize = 50
-
 " --- emmet-vim ---
 call dein#add('mattn/emmet-vim')
 let g:user_emmet_mode = 'a'
@@ -263,18 +311,6 @@ let g:mta_filetypes = {
 " --- tpope/vim-abolish ---
 call dein#add('tpope/vim-abolish')
 
-" --- aklt/plantuml-syntax ---
-call dein#add('aklt/plantuml-syntax')
-
-" --- fzf.vim ---
-" call dein#add('junegunn/fzf.vim')
-" set rtp+=/usr/local/opt/fzf
-
-" --- UltiSnips ---
-" call dein#add('SirVer/ultisnips')
-" let g:UltiSnipsSnippetsDir = s:config_dir . '/snips'
-" let g:UltiSnipsSnippetDirectories = [s:config_dir . '/snips']
-
 call dein#end()
 
 " 未インストールのプラグインをインストール
@@ -293,13 +329,13 @@ function! s:deinClean()
   endif
 endfunction
 command! DeinClean :call s:deinClean()
+
 "}}}
 
-" -----------
-"   Vim設定
-" -----------
-let s:win_width_min = 65 "{{{
-let s:win_height_min = 25
+" --------------
+"   マッピング
+" --------------
+"{{{
 
 " 改行されてても上下移動
 nnoremap j gj
@@ -308,11 +344,13 @@ nnoremap k gk
 " 誤爆しないように
 nnoremap Q <Nop>
 
-" 次のタブへ移動
-nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+" 次のバッファへ移動
+" nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+nnoremap <silent> <C-n> :<C-u>bn<CR>
 
-" 前のタブへ移動
-nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
+" 前のバッファへ移動
+" nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-p> :<C-u>bp<CR>
 
 " 次のウィンドウへ移動
 nnoremap <C-j> <C-w>w
@@ -335,72 +373,25 @@ if has('nvim')
     tnoremap <silent> <ESC> <C-\><C-n>
 endif
 
-" --- Leaderマッピング ---
+"}}}
+
+" ---------------------
+"   Leader マッピング
+" ---------------------
+"{{{
+
 let mapleader = "\<Space>"
-let s:is_full_win_mode = 0
-let s:is_full_horizontal_win_mode = 0
-let s:is_full_vertical_win_mode = 0
 
 function! OpenConfigFile()
     execute 'tabe '. s:config_file
 endfunction
 
 if !exists('*ReloadConfigFile')
-    function! ReloadConfigFile()
-        " execute 'bufdo source '. s:config_file
+    function! ReloadConfigFile() abort
         execute 'source ' . s:config_file
+        echo 'config reloaded'
     endfunction
 endif
-
-function! ToggleFullWindowMode()
-    if s:is_full_win_mode
-        execute 'set winwidth=' . s:win_width_min
-        execute 'set winheight=' . s:win_height_min
-        let s:is_full_win_mode = 0
-        execute "normal! \<C-w>="
-    else
-        set winwidth=9999
-        set winheight=9999
-        let s:is_full_win_mode = 1
-    endif
-endfunction
-
-function! ToggleHorizontalFullWindowMode()
-    if s:is_full_horizontal_win_mode
-        execute 'set winwidth=' . s:win_width_min
-        let s:is_full_horizontal_win_mode = 0
-        execute "normal! \<C-w>="
-    else
-        set winwidth=9999
-        let s:is_full_horizontal_win_mode = 1
-        if s:is_full_vertical_win_mode
-            let s:is_full_win_mode = 1
-        endif
-    endif
-endfunction
-
-function! ToggleVerticalFullWindowMode()
-    if s:is_full_vertical_win_mode
-        execute 'set winheight=' . s:win_height_min
-        let s:is_full_vertical_win_mode = 0
-        execute "normal! \<C-w>="
-    else
-        set winheight=9999
-        let s:is_full_vertical_win_mode = 1
-        if s:is_full_horizontal_win_mode
-            let s:is_full_win_mode = 1
-        endif
-    endif
-endfunction
-
-function! ShowFunctionHeader()
-    setlocal nosplitbelow
-    setlocal scrollopt=hor
-    split
-    execute "normal! \<C-w>5_"
-endfunction
-
-command! ShowFunctionHeader :call ShowFunctionHeader()
 
 function! TogglePasteMode()
     if &paste == 1
@@ -427,10 +418,25 @@ augroup mapping
 augroup END
 
 " 設定ファイルを開く
-nnoremap <silent> <Leader>co :<C-u>call OpenConfigFile()<CR>
+nnoremap <silent> <Leader>,o :<C-u>call OpenConfigFile()<CR>
 
 " 設定ファイルを再読込
-nnoremap <silent> <Leader>cr :<C-u>call ReloadConfigFile()<CR>
+nnoremap <silent> <Leader>,r :<C-u>call ReloadConfigFile()<CR>
+
+" ウィンドウを閉じる
+nnoremap <silent> <Leader>q :<C-u>q<CR>
+
+" 新しいタブを開く
+nnoremap <silent> <Leader>tn :<C-u>tabnew<CR>
+
+" タブを閉じる
+nnoremap <silent> <Leader>tc :<C-u>tabclose<CR>
+
+" バッファを閉じる
+nnoremap <silent> <Leader>bd :<C-u>bd<CR>
+
+" 保存
+nnoremap <silent> <Leader>w :<C-u>w<CR>
 
 " 最初のレジスタを貼り付け
 nnoremap <silent> <Leader>rp "0p
@@ -440,15 +446,6 @@ nnoremap <Leader><Space> o<ESC>
 
 " 現在行と列のハイライトを切替
 nnoremap <silent> <Leader>cht :<C-u>setlocal cursorline! cursorcolumn!<CR>
-
-" 常にカレントウィンドウの大きさを最大にする or 戻す
-nnoremap <silent> <Leader>wa :<C-u>call ToggleFullWindowMode()<CR>
-
-" 常にカレントウィンドウの幅を最大にする or 戻す
-nnoremap <silent> <Leader>wh :<C-u>call ToggleHorizontalFullWindowMode()<CR>
-
-" 常にカレントウィンドウの高さを最大にする or 戻す
-nnoremap <silent> <Leader>wv :<C-u>call ToggleVerticalFullWindowMode()<CR>
 
 " ペーストモード切り替え
 nnoremap <silent> <Leader>p :<C-u>call TogglePasteMode()<CR>
@@ -464,45 +461,52 @@ nnoremap <silent> <Leader>fmm :<C-u>setlocal foldmethod=manual<CR>
 
 " Denite
 " s[ource] b[uffer]
-nnoremap <silent> <Leader>sb<Space> :<C-u>Denite buffer<CR>
+nnoremap <silent> <Leader>sb :<C-u>Denite buffer<CR>
 
-" s[ource] c[mmand] history
-nnoremap <silent> <Leader>sc<Space> :<C-u>Denite command_history<CR>
+" s[ource] c[mmand]
+nnoremap <silent> <Leader>sc :<C-u>Denite command<CR>
+
+" s[ource] command [h]istory
+nnoremap <silent> <Leader>sh :<C-u>Denite command_history<CR>
 
 " s[ource] d[irectory]
-nnoremap <silent> <Leader>sd<Space> :<C-u>Denite directory_rec<CR>
+nnoremap <silent> <Leader>sd :<C-u>Denite directory_rec<CR>
 
 " s[ource] g[rep]
-nnoremap <silent> <Leader>sg<Space> :<C-u>Denite grep<CR>
+nnoremap <silent> <Leader>sg :<C-u>Denite grep<CR>
 
 " s[ource] f[ile]
-nnoremap <silent> <Leader>sf<Space> :<C-u>Denite file/rec<CR>
+nnoremap <silent> <Leader>sf :<C-u>Denite file/rec<CR>
 
-" s[ource] f[ile] t[ype]
-nnoremap <silent> <Leader>sft<Space> :<C-u>Denite filetype<CR>
+" s[ource] [file]t[ype]
+nnoremap <silent> <Leader>st :<C-u>Denite filetype<CR>
 
 " s[ource] l[ine]
-nnoremap <silent> <Leader>sl<Space> :<C-u>Denite line<CR>
+nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 
 " s[ource] o[utline]
-nnoremap <silent> <Leader>so<Space> :<C-u>Denite outline<CR>
+nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
 " s[ource] r[egister]
-nnoremap <silent> <Leader>sr<Space> :<C-u>Denite register<CR>
+nnoremap <silent> <Leader>sr :<C-u>Denite register<CR>
 
-" s[ource] t[em]p[late]
-nnoremap <silent> <Leader>stp<Space> :<C-u>execute ':Denite file ' . s:config_dir . '/template/' <CR>
+" s[ource] [tem]p[late]
+nnoremap <silent> <Leader>sp :<C-u>execute ':Denite file ' . s:config_dir . '/template/'<CR>
 
-" NERDTree
-nnoremap <silent> <Leader>ft :<C-u>NERDTreeToggle<CR>
+" netrw
+nnoremap <silent> <Leader>e :<C-u>Explore<CR>
+nnoremap <silent> <Leader>ve :<C-u>Vexplore!<CR>
+nnoremap <silent> <Leader>se :<C-u>Sexplore<CR>
+nnoremap <silent> <Leader>te :<C-u>Texplore<CR>
+" nnoremap <silent> <Leader>le :<C-u>25Lexplore<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
 " memolist.vim
-nnoremap <silent> <Leader>mn  :<C-u>MemoNew<CR>
-nnoremap <silent> <Leader>ml  :<C-u>MemoList<CR>
-nnoremap <silent> <Leader>mg  :<C-u>MemoGrep<CR>
+nnoremap <silent> <Leader>mn :<C-u>MemoNew<CR>
+nnoremap <silent> <Leader>ml :<C-u>MemoList<CR>
+nnoremap <silent> <Leader>mg :<C-u>MemoGrep<CR>
 
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
@@ -510,10 +514,12 @@ nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 " majutsushi/tagbar
 nnoremap <silent> <Leader>tb :<C-u>TagbarToggle<CR>
 
-" fzf.vim
-" nnoremap <silent> <Leader>bff :<C-u>Buffers<CR>
-" nnoremap <silent> <Leader>fff :<C-u>Files<CR>
-" nnoremap <silent> <Leader>tff :<C-u>Tags<CR>
+"}}}
+
+" -----------
+"   Vim設定
+" -----------
+" {{{
 
 " --- 基本オプション ---
 colorscheme gruvbox
@@ -532,21 +538,39 @@ set backupcopy=yes
 "   indent - オートインデントモードでインデントを削除できるように設定
 set backspace=start,eol,indent
 
-set mouse=a      " マウス機能
-set hidden       " 隠れバッファの許可
-set undofile     " 永続的Undo機能
-"set binary noeol " 行末に勝手に改行しない
+set mouse=a " マウス機能
+set hidden " 隠れバッファの許可
+set undofile " 永続的Undo機能
 set winminheight=0
 set norelativenumber
-"set ambiwidth=double " □や○文字が崩れる問題を解決
-set clipboard+=unnamedplus
+set clipboard=unnamed,unnamedplus " yank 時に '+' と '*' レジスタにコピーする
 set breakindent " 行の折り返し時にインデントを考慮する
-set shortmess-=S
+set shortmess-=S " 検索結果数を表示
+"set ambiwidth=double " □や○文字が崩れる問題を解決
 
 augroup basic
     autocmd!
     autocmd FileType vue syntax sync fromstart
 augroup END
+
+" --- netrw ----
+" ファイルツリーの表示形式
+let g:netrw_liststyle=3
+" ヘッダを非表示にする
+let g:netrw_banner=0
+" サイズを(K,M,G)で表示する
+let g:netrw_sizestyle="H"
+" 日付フォーマットを yyyy/mm/dd(曜日) hh:mm:ss で表示する
+let g:netrw_timefmt="%Y/%m/%d(%a) %H:%M:%S"
+" プレビューウィンドウを垂直分割で表示する
+let g:netrw_preview=1
+" 新規にウィンドウを開く場合のその幅
+" 0 の場合は普通のウィンドウのように振る舞う
+let g:netrw_winsize=75
+" 隠しファイルの正規表現
+" let g:netrw_list_hide='^\..*$,tags'
+" デフォルトで隠しファイルを非表示
+" let g:netrw_hide=1
 
 " --- diff ---
 if &diff " vimdiff のとき
@@ -554,12 +578,12 @@ if &diff " vimdiff のとき
 endif
 
 " --- カーソル移動 ---
-set scrolloff=8      " 上下8行の視界を確保
+set scrolloff=8 " 上下8行の視界を確保
 set sidescrolloff=16 " 左右スクロール時の視界を確保
-set sidescroll=1     " 左右スクロールは1文字ずつ行う
+set sidescroll=1 " 左右スクロールは1文字ずつ行う
 
 " --- エンコーディング ---
-set encoding=utf8     " Vimが内部で用いるエンコーディング
+set encoding=utf8 " Vimが内部で用いるエンコーディング
 set termencoding=utf8 " 端末の出力に用いられるエンコーディング
 
 " --- スペルチェック（コメントだけ） ---
@@ -594,7 +618,7 @@ set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsiz
 
 " セッションファイルがロードされていた場合、Vim終了時に現在のセッションで上書きする
 " ロードされていてもいなくても、previous.vimとして保存する
-function! StoreSession()
+function! StoreSession() abort
     if v:this_session != ''
         execute ':mksession! ' . v:this_session
     endif
@@ -607,11 +631,11 @@ augroup session
 augroup END
 
 " --- 見た目 ---
-set showmatch       " 対応する括弧を強調表示
-set nocursorline    " カーソルラインの強調表示
-set number          " 行番号の表示
-set colorcolumn=100 " 縦のライン表示
-set showcmd         " 入力中のコマンドを表示
+set showmatch " 対応する括弧を強調表示
+set cursorline " カーソルラインの強調表示
+set number " 行番号の表示
+set colorcolumn=120 " 縦のライン表示
+set showcmd " 入力中のコマンドを表示
 
 augroup appearance
     autocmd!
@@ -639,15 +663,11 @@ endif
 set showtabline=1
 
 " --- ウィンドウ ---
-set splitbelow   " 新しいウィンドウを下に開く
-set splitright   " 新しいウィンドウを右に開く
+set splitbelow " 新しいウィンドウを下に開く
+set splitright " 新しいウィンドウを右に開く
 set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
-
-" ウィンドウの最小幅
-execute 'set winwidth=' . s:win_width_min
-
-" ウィンドウの最小の高さ
-execute 'set winheight=' . s:win_height_min
+set winwidth=30 " ウィンドウの最小幅
+set winheight=25 " ウィンドウの最小の高さ
 
 " --- ステータスライン ---
 set laststatus=2 " ステータスラインを常に表示
@@ -691,7 +711,7 @@ augroup END
 call SwitchStatusLineCurrent()
 
 " --- 補完機能 ---
-set nowildmenu            " 候補をビジュアル的に表示しない
+set nowildmenu " 候補をビジュアル的に表示しない
 set wildmode=list:longest " 補完時の一覧表示機能有効化
 
 augroup complement
@@ -701,12 +721,12 @@ augroup complement
 augroup END
 
 " --- インデント ---
-set tabstop=4     " タブ文字の幅
+set tabstop=4 " タブ文字の幅
 set softtabstop=4 " 削除する空白の数
-set shiftwidth=4  " >>で移動するタブ幅
-set autoindent    " 自動インデント
-set smartindent   " C言語スタイルのブロックを自動挿入
-set expandtab     " タブ文字を空白に展開
+set shiftwidth=4 " >>で移動するタブ幅
+set autoindent " 自動インデント
+set smartindent " C言語スタイルのブロックを自動挿入
+set expandtab " タブ文字を空白に展開
 
 filetype plugin indent on
 
@@ -723,7 +743,6 @@ augroup indent
     autocmd FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
-
 " --- Linting ---
 set errorformat=%m\ in\ %f:\ line\ %l " エラー表示のフォーマットを設定
 
@@ -734,49 +753,7 @@ augroup linting
     " エラーがあればQuickFixに表示
     autocmd BufWritePost *.php silent make | if len(getqflist()) != 1 | copen | else | cclose | endif
 augroup END
+
 "}}}
-
-" ------------------------
-"   ユーザー定義コマンド
-" ------------------------
-
-" markdown を見出しで折り畳む
-" https://wisteriasec.wordpress.com/2017/12/30/markdown%E5%BD%A2%E5%BC%8F%E3%81%AB%E6%B2%BF%E3%81%A3%E3%81%A6fold%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEvim%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88/
-" vim: set foldmethod=expr foldexpr=FoldMarkdown(v\:lnum) :
-function! FoldMarkdown(lnum)
-  let line = getline(a:lnum)
-  let next = getline(a:lnum + 1)
-
-  if line =~ '^#\{1}[^#]\+'
-    return 1
-  elseif next =~ '^#\{1}[^#]\+'
-    return '<1'
-  endif
-
-  return '='
-endfunction
-
-" :Bt <N>...でバッファ番号からバックグラウンドにタブを開く{{{
-command! -nargs=+ Bt call BufsToTabs(<f-args>)
-function! BufsToTabs(...)
-    let l:c_tab = tabpagenr()
-    for l:e in a:000
-        if !buflisted(str2nr(l:e))
-            echoerr "No such buffers number: " . l:e
-        else
-            let l:name = bufname(str2nr(l:e))
-            execute 'tabedit ' . l:name
-        endif
-    endfor
-endfunction
-
-command! Rm call delete(expand('%')) | bdelete!
-
-augroup userCommand
-    autocmd!
-    autocmd FileType plantuml command! OpenUml :!open -a '/Applications/Google Chrome.app' %
-augroup END
-"}}}
-
 
 " vim:set foldmethod=marker:

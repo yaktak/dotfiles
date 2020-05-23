@@ -59,7 +59,6 @@ bind main B ?git rebase -i %(commit)
 bind main K ?git checkout %(commit)
 bind main S ?git reset --mixed %(commit)
 bind main V ?git revert %(commit)
-bind main H git diff %(commit) HEAD
 
 # Branch bindings
 
