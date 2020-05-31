@@ -1,8 +1,13 @@
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
 export GOPATH=$HOME/go
 set -x PATH $GOPATH/bin $PATH
-source (salias --init | psub)
+# source (salias --init | psub)
 
 alias ssh='~/bin/ssh-with-changing-profile.sh'
+
+alias lla='ls -la'
 
 alias d='docker'
 alias dc='docker-compose'
