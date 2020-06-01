@@ -3,24 +3,11 @@
 set -ux
 cd `dirname $0`
 
-CONFIG_DIR="$HOME/.config"
-if [ ! -e $CONFIG_DIR ]; then
-    mkdir $CONFIG_DIR
-    echo ".config directory created"
-fi
-
-if [ ! -e "$CONFIG_DIR/nvim" ]; then
-    mkdir "$CONFIG_DIR/nvim"
-    echo ".config/nvim directory created"
-fi
-
 DOT_FILES="$HOME/dotfiles"
 cd $DOT_FILES
 
 shopt -s dotglob
 for f in *; do
-    [[ "$f" == "init.vim" ]] && ln -s "$DOT_FILES/$f" "$CONFIG_DIR/nvim/init.vim" && continue
-    [[ "$f" == "config.fish" ]] && ln -s "$DOT_FILES/$f" "$CONFIG_DIR/fish/config.fish" && continue
     [[ "$f" =~ ^\..+$ ]] || continue
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
