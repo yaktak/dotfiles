@@ -67,6 +67,10 @@ nnoremap <silent> <C-n> :<C-u>bn<CR>
 " 前のバッファへ移動
 nnoremap <silent> <C-p> :<C-u>bp<CR>
 
+" 少し多めに移動
+nnoremap <C-j> 8j
+nnoremap <C-k> 8k
+
 " インサートモード中に横移動
 inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
@@ -143,8 +147,8 @@ nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 " s[ource] o[utline]
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
-" netrw
-nnoremap <silent> <Leader>e :<C-u>Explore<CR>
+" Defx
+nnoremap <silent> <Leader>e :<C-u>Defx<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -265,26 +269,5 @@ augroup indent
     autocmd FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType toml       setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
-
-" --- netrw ----
-" ファイルツリーの表示形式
-let g:netrw_liststyle=3
-" ヘッダを非表示にする
-let g:netrw_banner=0
-" サイズを(K,M,G)で表示する
-let g:netrw_sizestyle="H"
-" 日付フォーマットを yyyy/mm/dd(曜日) hh:mm:ss で表示する
-let g:netrw_timefmt="%Y/%m/%d(%a) %H:%M:%S"
-" プレビューウィンドウを垂直分割で表示する
-let g:netrw_preview=1
-" 新規にウィンドウを開く場合のその幅
-" 0 の場合は普通のウィンドウのように振る舞う
-let g:netrw_winsize=75
-" 隠しファイルの正規表現
-" let g:netrw_list_hide='^\..*$,tags'
-" デフォルトで隠しファイルを非表示
-" let g:netrw_hide=1
-
-"}}}
 
 " vim:set foldmethod=marker:

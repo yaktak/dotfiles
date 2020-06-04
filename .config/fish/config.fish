@@ -17,7 +17,6 @@ alias dcee='docker-compose exec ethnam'
 
 alias g='git'
 alias gco='git branch -a | fzf | xargs git checkout'
-alias nvimps='nvim -S ~/.config/nvim/sessions/previous.session.vim'
 
 function fish_prompt --description 'Write out the prompt'
     printf '%s %s' (set_color green)(prompt_pwd) (set_color yellow)"(*´∀`) < "
