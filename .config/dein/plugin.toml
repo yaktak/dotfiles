@@ -68,7 +68,9 @@ repo = 'Shougo/neosnippet-snippets'
 # 末尾の空白を赤くする
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
-if = 0
+hook_add = '''
+  let g:extra_whitespace_ignored_filetypes = ['defx']
+'''
 
 # メモ管理
 [[plugins]]
@@ -198,6 +200,8 @@ hook_add = '''
     \ defx#do_action('toggle_sort', 'time')
     nnoremap <silent><buffer><expr> d
     \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> D
+    \ defx#do_action('drop')
     nnoremap <silent><buffer><expr> r
     \ defx#do_action('rename')
     nnoremap <silent><buffer><expr> !
@@ -257,10 +261,6 @@ hook_add = '''
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
-  " call denite#custom#option('default', {
-  "     \ 'split': 'floating',
-  "     \ })
-
   " Change file/rec command.
   call denite#custom#var('file/rec', 'command',
               \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
@@ -274,8 +274,10 @@ hook_add = '''
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
-
   call denite#custom#source('grep', 'args', ['', '', '!'])
+
+  " Chagen buffer command.
+  call denite#custom#var('buffer', 'exclude_filetypes', ['denite', 'defx'])
 
   " Change mappings.
   autocmd FileType denite call s:denite_my_settings()
