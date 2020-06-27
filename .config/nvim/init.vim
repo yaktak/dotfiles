@@ -148,7 +148,7 @@ nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
 " Defx
-nnoremap <silent> <Leader>e :<C-u>Defx<CR>
+nnoremap <silent> <Leader>e :<C-u>Defx -split=vertical -direction=topleft -winwidth=60 -toggle -listed -resume<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -211,7 +211,7 @@ set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsiz
 " --- 見た目 ---
 set showmatch " 対応する括弧を強調表示
 set cursorline " カーソルラインの強調表示
-set cursorcolumn " カーソルラインの強調表示（縦）
+" set cursorcolumn " カーソルラインの強調表示（縦）
 set number " 行番号の表示
 set colorcolumn=100 " 縦のライン表示
 set showcmd " 入力中のコマンドを表示
