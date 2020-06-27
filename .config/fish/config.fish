@@ -5,7 +5,7 @@ export GOPATH=$HOME/go
 set -x PATH $GOPATH/bin $PATH
 # source (salias --init | psub)
 
-alias ssh='~/bin/ssh-with-changing-profile.sh'
+# alias ssh='~/bin/ssh-with-changing-profile.sh'
 
 alias lla='ls -la'
 
