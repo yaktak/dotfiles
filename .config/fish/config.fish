@@ -12,11 +12,10 @@ alias lla='ls -la'
 alias d='docker'
 alias dc='docker-compose'
 alias dce='docker-compose exec'
-alias dcel='docker-compose exec laravel'
-alias dcee='docker-compose exec ethnam'
 
 alias g='git'
-alias gco='git branch -a | fzf | xargs git checkout'
+alias gco='git branch | fzf | xargs git checkout'
+alias git-delete-merged-branch='git branch --merged | egrep -v "\*" | xargs git branch -d'
 
 function fish_prompt --description 'Write out the prompt'
     printf '%s %s' (set_color green)(prompt_pwd) (set_color yellow)"(*´∀`) < "

@@ -169,6 +169,16 @@ repo = 'tpope/vim-abolish'
 repo = 'Shougo/defx.nvim'
 hook_add = '''
   autocmd FileType defx call s:defx_my_settings()
+
+  call defx#custom#option('_', {
+    \ 'split': 'vertical',
+    \ 'direction': 'topleft',
+    \ 'winwidth': '60',
+    \ 'toggle': v:true,
+    \ 'listed': v:true,
+    \ 'resume': v:true,
+    \ })
+
   function! s:defx_my_settings() abort
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
