@@ -61,10 +61,6 @@ on_ft = 'pug'
 [[plugins]]
 repo = 'ap/vim-css-color'
 
-# neosnippet のデフォルトスニペット
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-
 # 末尾の空白を赤くする
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
@@ -169,21 +165,20 @@ repo = 'tpope/vim-abolish'
 [[plugins]]
 repo = 'Shougo/defx.nvim'
 hook_add = '''
-  autocmd FileType defx call s:defx_my_settings()
-
   call defx#custom#option('_', {
     \ 'split': 'vertical',
     \ 'direction': 'topleft',
     \ 'winwidth': '60',
-    \ 'toggle': v:true,
     \ 'listed': v:true,
     \ 'resume': v:true,
     \ })
 
+  autocmd FileType defx call s:defx_my_settings()
+
   function! s:defx_my_settings() abort
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
-    \ defx#do_action('open')
+    \ defx#do_action('multi', ['drop', 'quit'])
     nnoremap <silent><buffer><expr> c
     \ defx#do_action('copy')
     nnoremap <silent><buffer><expr> m
@@ -191,7 +186,7 @@ hook_add = '''
     nnoremap <silent><buffer><expr> p
     \ defx#do_action('paste')
     nnoremap <silent><buffer><expr> l
-    \ defx#do_action('open')
+    \ defx#do_action('open_directory')
     nnoremap <silent><buffer><expr> E
     \ defx#do_action('open', 'vsplit')
     nnoremap <silent><buffer><expr> P
@@ -248,30 +243,14 @@ hook_add = '''
   endfunction
 '''
 
-# 補完のインタフェース
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-on_event = 'InsertEnter'
-hook_add = '''
-  let g:deoplete#enable_at_startup = 1
-'''
-
-# スニペット管理のインタフェース
-[[plugins]]
-repo = 'Shougo/neosnippet.vim'
-on_event = 'InsertEnter'
-depends = ['neosnippet.vim']
-hook_add = '''
-  let g:neosnippet#snippets_directory = $XDG_DATA_HOME . '/neosnippet/snips'
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
-'''
-
 # fuzzy search のインタフェース
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
+  call denite#custom#option('_', 'split', 'horizontal')
+  call denite#custom#option('_', 'vertical_preview', v:true)
+  call denite#custom#option('_', 'preview_width', 60)
+
   " Change file/rec command.
   call denite#custom#var('file/rec', 'command',
               \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
@@ -319,3 +298,21 @@ repo = 'tpope/vim-fugitive'
 # 終了時にセッションとしてスナップショットを保存
 [[plugins]]
 repo = 'yaktak/sestry.vim'
+
+# LSP クライアント
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+rev = 'next'
+build = 'bash install.sh'
+hook_add = '''
+  set hidden
+  let g:LanguageClient_hoverPreview = 'Always'
+
+  let g:LanguageClient_serverCommands = {
+      \ 'typescript': ['typescript-language-server', '--stdio'],
+      \ }
+'''
+
+# 動的に filetype を切り替える
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'

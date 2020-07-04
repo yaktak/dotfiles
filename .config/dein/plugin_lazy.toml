@@ -8,18 +8,13 @@ on_event = 'InsertEnter'
 repo = 'joker1007/vim-markdown-quote-syntax'
 on_ft = 'markdown'
 
-# 静的解析ツール
-[[plugins]]
-repo = 'dense-analysis/ale'
-on_ft = ['javascript', 'pho', 'python', 'typescript', 'vue', 'vim']
-
 # Neovim で矩形選択でのコピペがうまく行かないのを直す
 [[plugins]]
 repo = 'bfredl/nvim-miniyank'
 if = "has('nvim')"
 hook_source = '''
-    map p <Plug>(miniyank-autoput)
-    map P <Plug>(miniyank-autoPut)
+  map p <Plug>(miniyank-autoput)
+  map P <Plug>(miniyank-autoPut)
 '''
 
 # HTML のタグ補完など
@@ -44,4 +39,52 @@ hook_source = '''
     \ 'xhtml': 1,
     \ 'xml': 1,
   \ }
+'''
+
+# 補完のインタフェース
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+on_event = 'InsertEnter'
+hook_source = '''
+  let g:deoplete#enable_at_startup = 1
+
+	autocmd CompleteDone * silent! pclose!
+'''
+
+# スニペット管理のインタフェース
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+on_event = 'InsertEnter'
+depends = ['neosnippet-snippets']
+hook_source = '''
+  let g:neosnippet#snippets_directory = $XDG_DATA_HOME . '/neosnippet/snips'
+
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+
+# neosnippet のデフォルトスニペット
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+# ヘルプファイルを日本語化
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+on_ft = 'help'
+hook_source = '''
+  set helplang=ja
+'''
+
+# 静的解析ツール
+[[plugins]]
+repo = 'dense-analysis/ale'
+if = 0
+on_ft = ['javascript', 'php', 'python', 'typescript', 'vue', 'vim']
+hook_source = '''
+  let g:ale_completion_tsserver_autoimport = 1
 '''

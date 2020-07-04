@@ -75,6 +75,15 @@ nnoremap <C-k> 8k
 inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
 
+" コマンドラインで Emacs 風に移動
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-d> <Del>
+
 "}}}
 
 " ---------------------
@@ -148,8 +157,8 @@ nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
 " Defx
-nnoremap <silent> <Leader>e :<C-u>Defx<CR>
-nnoremap <silent> <Leader>.e :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
+nnoremap <silent> <Leader>ee :<C-u>Defx -toggle<CR>
+nnoremap <silent> <Leader>e. :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -160,6 +169,12 @@ nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 " majutsushi/tagbar
 nnoremap <silent> <Leader>tb :<C-u>TagbarToggle<CR>
 
+" LanguageClient
+nnoremap <Leader>lh :<C-u>call LanguageClient_textDocument_hover()<CR>
+nnoremap <Leader>ld :<C-u>call LanguageClient_textDocument_definition()<CR>
+nnoremap <Leader>lr :<C-u>call LanguageClient_textDocument_rename()<CR>
+nnoremap <Leader>lf :<C-u>call LanguageClient_textDocument_references()<CR>
+nnoremap <Leader>lc :<C-u>Denite contextMenu<CR>
 "}}}
 
 
