@@ -51,6 +51,13 @@ function! s:deinClean()
 endfunction
 command! DeinClean :call s:deinClean()
 
+" nvim-lsp の設定
+lua << EOF
+require'nvim_lsp'.tsserver.setup{}
+require'nvim_lsp'.intelephense.setup{}
+require'nvim_lsp'.vuels.setup{}
+EOF
+
 "}}}
 
 " --------------
@@ -84,6 +91,17 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 
+" LSP
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
 "}}}
 
 " ---------------------
@@ -94,7 +112,7 @@ cnoremap <C-d> <Del>
 let mapleader = "\<Space>"
 
 " 設定ファイルを開く
-nnoremap <silent> <Leader>,, :<C-u>call util#open_config_file()<CR>
+nnoremap <silent> <Leader>,<Space> :<C-u>call util#open_config_file()<CR>
 
 " 設定ファイルを再読込
 nnoremap <silent> <Leader>,r :<C-u>call util#reload_config_file()<CR>
@@ -157,7 +175,7 @@ nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
 " Defx
-nnoremap <silent> <Leader>ee :<C-u>Defx -toggle<CR>
+nnoremap <silent> <Leader>e<Space> :<C-u>Defx -toggle<CR>
 nnoremap <silent> <Leader>e. :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
 " vim-indent-guides
@@ -166,15 +184,6 @@ nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
-" majutsushi/tagbar
-nnoremap <silent> <Leader>tb :<C-u>TagbarToggle<CR>
-
-" LanguageClient
-nnoremap <Leader>lh :<C-u>call LanguageClient_textDocument_hover()<CR>
-nnoremap <Leader>ld :<C-u>call LanguageClient_textDocument_definition()<CR>
-nnoremap <Leader>lr :<C-u>call LanguageClient_textDocument_rename()<CR>
-nnoremap <Leader>lf :<C-u>call LanguageClient_textDocument_references()<CR>
-nnoremap <Leader>lc :<C-u>Denite contextMenu<CR>
 "}}}
 
 
@@ -184,6 +193,8 @@ nnoremap <Leader>lc :<C-u>Denite contextMenu<CR>
 " {{{
 
 " --- 基本オプション ---
+let g:netrw_dirhistmax = 0 "netrw の履歴ファイルを作らない
+
 set redrawtime=10000 "重い再描画の際に syntax off になるまでの時間
 set backupcopy=yes
 set conceallevel=2
@@ -199,7 +210,7 @@ set diffopt+=iwhite " vimdiff のとき空白を無視
 
 augroup basic
     autocmd!
-    autocmd FileType vue syntax sync fromstart
+    " autocmd FileType vue syntax sync fromstart
 augroup END
 
 " --- カーソル移動 ---
@@ -216,7 +227,7 @@ set foldminlines=0
 set foldmethod=manual
 
 " --- タグ ---
-set tags=tags
+" set tags=tags
 set tagbsearch " タグファイル検索時に二分探索を使う
 set tagcase=ignore " タグファイルの検索
 

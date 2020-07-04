@@ -1,12 +1,63 @@
-# 閉じ括弧を補完
+# CSS のシンタックスハイライト
 [[plugins]]
-repo = 'cohama/lexima.vim'
-on_event = 'InsertEnter'
+repo = 'hail2u/vim-css3-syntax'
+on_ft = 'css'
+
+# Vue.js の SFC のシンタックスハイライト
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = 'vue'
+
+# fish のシンタックスハイライト
+[[plugins]]
+repo = 'dag/vim-fish'
+on_ft = 'fish'
+
+# TypeScript のシンタックスハイライト
+[[plugins]]
+if = 0
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+
+# JavaScript のシンタックスハイライト
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = 'javascript'
+
+# Blade のシンタックスハイライト
+[[plugins]]
+repo = 'jwalton512/vim-blade'
+on_ft = 'blade'
+
+# TOML のシンタックスハイライト
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# Nginx 設定ファイルのシンタックスハイライト
+[[plugins]]
+repo = 'chr4/nginx.vim'
+on_ft = 'nginx'
+
+# HTML のシンタックスハイライト
+[[plugins]]
+repo = 'othree/html5.vim'
+on_ft = 'html'
+
+# Pug のシンタックスハイライト
+[[plugins]]
+repo = 'digitaltoad/vim-pug'
+on_ft = 'pug'
 
 # マークダウンのシンタックスハイライト
 [[plugins]]
 repo = 'joker1007/vim-markdown-quote-syntax'
 on_ft = 'markdown'
+
+# 閉じ括弧を補完
+[[plugins]]
+repo = 'cohama/lexima.vim'
+on_event = 'InsertEnter'
 
 # Neovim で矩形選択でのコピペがうまく行かないのを直す
 [[plugins]]

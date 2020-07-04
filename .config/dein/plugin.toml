@@ -7,71 +7,13 @@ hook_add = '''
   set background=dark
 '''
 
-# CSS のシンタックスハイライト
-[[plugins]]
-repo = 'hail2u/vim-css3-syntax'
-on_ft = 'css'
-
-# Vue.js の SFC のシンタックスハイライト
-[[plugins]]
-repo = 'posva/vim-vue'
-on_ft = 'vue'
-
-# fish のシンタックスハイライト
-[[plugins]]
-repo = 'dag/vim-fish'
-on_ft = 'fish'
-
-# TypeScript のシンタックスハイライト
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-on_ft = 'typescript'
-
-# JavaScript のシンタックスハイライト
-[[plugins]]
-repo = 'othree/yajs.vim'
-on_ft = 'javascript'
-
-# Blade のシンタックスハイライト
-[[plugins]]
-repo = 'jwalton512/vim-blade'
-on_ft = 'blade'
-
-# TOML のシンタックスハイライト
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
-
-# Nginx 設定ファイルのシンタックスハイライト
-[[plugins]]
-repo = 'chr4/nginx.vim'
-on_ft = 'nginx'
-
-# HTML のシンタックスハイライト
-[[plugins]]
-repo = 'othree/html5.vim'
-on_ft = 'html'
-
-# Pug のシンタックスハイライト
-[[plugins]]
-repo = 'digitaltoad/vim-pug'
-on_ft = 'pug'
-
 # カラーコードをハイライトする
 [[plugins]]
 repo = 'ap/vim-css-color'
 
 # 末尾の空白を赤くする
 [[plugins]]
-repo = 'bronson/vim-trailing-whitespace'
-if = 0
-hook_add = '''
-  let g:extra_whitespace_ignored_filetypes = ['defx']
-'''
-
-# メモ管理
-[[plugins]]
-repo = 'glidenote/memolist.vim'
+repo = 'ntpeters/vim-better-whitespace'
 
 # コードの整形
 [[plugins]]
@@ -115,21 +57,6 @@ hook_add = '''
   " vim 起動時に、保存したセッションのうちローカルに同じ名前のブランチが存在しないものを削除する。
   " yes、no、confirmを設定可能でデフォルトはno
   let g:gsw_autodelete_sessions_if_branch_not_exists = 'confirm'
-'''
-
-# Ctags の情報をウィンドウに表示する
-[[plugins]]
-repo = 'majutsushi/tagbar'
-
-# ctags のタグを動的に生成
-[[plugins]]
-repo = 'soramugi/auto-ctags.vim'
-hook_add = '''
-  " ファイルに書き込む際にタグを作成
-  let g:auto_ctags = 1
-
-  " ctags のオプションを指定
-  let g:auto_ctags_tags_args = []
 '''
 
 # Vim 上でコードを実行する
@@ -299,20 +226,14 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'yaktak/sestry.vim'
 
-# LSP クライアント
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-build = 'bash install.sh'
-hook_add = '''
-  set hidden
-  let g:LanguageClient_hoverPreview = 'Always'
-
-  let g:LanguageClient_serverCommands = {
-      \ 'typescript': ['typescript-language-server', '--stdio'],
-      \ }
-'''
-
 # 動的に filetype を切り替える
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
+
+# LSP を簡単に設定する
+[[plugins]]
+repo = 'neovim/nvim-lsp'
+
+# LSP と deoplete を連携
+[[plugins]]
+repo = 'Shougo/deoplete-lsp'
