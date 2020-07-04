@@ -174,7 +174,7 @@ set concealcursor=niv
 
 set mouse=a " マウス機能
 set hidden " 隠れバッファの許可
-set winminheight=0
+set winminheight=0 " ウィンドウの最小の高さ
 set clipboard=unnamed,unnamedplus " yank 時に '+' と '*' レジスタにコピーする
 set breakindent " 行の折り返し時にインデントを考慮する
 set undofile " 永続的Undo機能
@@ -204,7 +204,6 @@ set tagbsearch " タグファイル検索時に二分探索を使う
 set tagcase=ignore " タグファイルの検索
 
 " --- セッション ---
-
 " セッションに保存する項目
 set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsize
 
@@ -219,7 +218,7 @@ set list " 不可視文字を表示
 set listchars=tab:>-,trail:-,eol:↲
 
 " --- 検索 / 置換 ---
-set shortmess-=S " 検索結果数を表示
+set shortmess+=I " 起動時の :intrto を非表示
 set hlsearch " 検索キーワードをハイライト
 set incsearch " インクリメンタル検索を有効化
 set ignorecase " case-insensitive で検索する

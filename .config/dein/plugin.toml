@@ -68,6 +68,7 @@ repo = 'Shougo/neosnippet-snippets'
 # 末尾の空白を赤くする
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
+if = 0
 hook_add = '''
   let g:extra_whitespace_ignored_filetypes = ['defx']
 '''
