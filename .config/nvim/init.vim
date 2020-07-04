@@ -148,7 +148,8 @@ nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 
 " Defx
-nnoremap <silent> <Leader>e :<C-u>Defx -split=vertical -direction=topleft -winwidth=60 -toggle -listed -resume<CR>
+nnoremap <silent> <Leader>e :<C-u>Defx<CR>
+nnoremap <silent> <Leader>.e :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -160,6 +161,7 @@ nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 nnoremap <silent> <Leader>tb :<C-u>TagbarToggle<CR>
 
 "}}}
+
 
 " -----------
 "   Vim設定
