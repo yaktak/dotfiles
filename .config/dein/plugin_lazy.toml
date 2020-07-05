@@ -131,9 +131,6 @@ hook_source = '''
   set helplang=ja
 '''
 
-[[plugins]]
-repo = 'vim-test/vim-test'
-
 # 静的解析ツール
 [[plugins]]
 repo = 'dense-analysis/ale'
