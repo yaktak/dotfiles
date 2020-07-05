@@ -102,6 +102,13 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
+" vim-test
+nmap <silent> t<C-n> :<C-u>TestNearest<CR>
+nmap <silent> t<C-f> :<C-u>TestFile<CR>
+nmap <silent> t<C-s> :<C-u>TestSuite<CR>
+nmap <silent> t<C-l> :<C-u>TestLast<CR>
+nmap <silent> t<C-g> :<C-u>TestVisit<CR>
+
 "}}}
 
 " ---------------------
@@ -113,70 +120,22 @@ let mapleader = "\<Space>"
 
 " 設定ファイルを開く
 nnoremap <silent> <Leader>,<Space> :<C-u>call util#open_config_file()<CR>
-
 " 設定ファイルを再読込
 nnoremap <silent> <Leader>,r :<C-u>call util#reload_config_file()<CR>
-
 " ウィンドウを閉じる
 nnoremap <silent> <Leader>q :<C-u>q<CR>
-
-" 新しいタブを開く
-nnoremap <silent> <Leader>tn :<C-u>tabnew<CR>
-
-" タブを閉じる
-nnoremap <silent> <Leader>tc :<C-u>tabclose<CR>
-
-" バッファを閉じる
-nnoremap <silent> <Leader>bd :<C-u>bd<CR>
-
 " 保存
 nnoremap <silent> <Leader>w :<C-u>w<CR>
-
 " 最初のレジスタを貼り付け
 nnoremap <silent> <Leader>rp "0p
-
 " 下に改行を挿入
 nnoremap <Leader>o o<ESC>
-
 " 上に改行を挿入
 nnoremap <Leader><S-o> O<ESC>
-
 " ペーストモード切り替え
 nnoremap <silent> <Leader>p :<C-u>call util#toggle_paste_mode()<CR>
-
 " 折返しの有無の切り替え
 nnoremap <silent> <Leader>wt :<C-u>call util#toggle_wrap()<CR>
-
-" s[ource] b[uffer]
-nnoremap <silent> <Leader>sb :<C-u>Denite buffer<CR>
-
-" s[ource] c[mmand]
-nnoremap <silent> <Leader>sc :<C-u>Denite command<CR>
-
-" s[ource] command [h]istory
-nnoremap <silent> <Leader>sh :<C-u>Denite command_history<CR>
-
-" s[ource] d[irectory]
-nnoremap <silent> <Leader>sd :<C-u>Denite directory_rec<CR>
-
-" s[ource] g[rep]
-nnoremap <silent> <Leader>sg :<C-u>Denite grep<CR>
-
-" s[ource] f[ile]
-nnoremap <silent> <Leader>sf :<C-u>Denite file/rec<CR>
-
-" s[ource] [file]t[ype]
-nnoremap <silent> <Leader>st :<C-u>Denite filetype<CR>
-
-" s[ource] l[ine]
-nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
-
-" s[ource] o[utline]
-nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
-
-" Defx
-nnoremap <silent> <Leader>e<Space> :<C-u>Defx -toggle<CR>
-nnoremap <silent> <Leader>e. :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
@@ -184,8 +143,21 @@ nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 " vim-quickrun
 nnoremap <silent> <Leader>x :<C-u>QuickRun<CR>
 
-"}}}
+" Defx
+nnoremap <silent> <Leader>e<Space> :<C-u>Defx -toggle<CR>
+nnoremap <silent> <Leader>e. :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
+" Denite
+nnoremap <silent> <Leader>sb :<C-u>Denite buffer<CR>
+nnoremap <silent> <Leader>sc :<C-u>Denite command<CR>
+nnoremap <silent> <Leader>sh :<C-u>Denite command_history<CR>
+nnoremap <silent> <Leader>sd :<C-u>Denite directory_rec<CR>
+nnoremap <silent> <Leader>sg :<C-u>Denite grep<CR>
+nnoremap <silent> <Leader>sf :<C-u>Denite file/rec<CR>
+nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
+nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
+
+"}}}
 
 " -----------
 "   Vim設定
