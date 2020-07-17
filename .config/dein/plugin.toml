@@ -1,3 +1,62 @@
+# CSS のシンタックスハイライト
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+on_ft = 'css'
+
+# Vue.js の SFC のシンタックスハイライト
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = 'vue'
+hook_add = '''
+  autocmd FileType vue syntax sync fromstart
+'''
+
+# fish のシンタックスハイライト
+[[plugins]]
+repo = 'dag/vim-fish'
+on_ft = 'fish'
+
+# TypeScript のシンタックスハイライト
+[[plugins]]
+if = 0
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+
+# JavaScript のシンタックスハイライト
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = 'javascript'
+
+# Blade のシンタックスハイライト
+[[plugins]]
+repo = 'jwalton512/vim-blade'
+on_ft = 'blade'
+
+# TOML のシンタックスハイライト
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# Nginx 設定ファイルのシンタックスハイライト
+[[plugins]]
+repo = 'chr4/nginx.vim'
+on_ft = 'nginx'
+
+# HTML のシンタックスハイライト
+[[plugins]]
+repo = 'othree/html5.vim'
+on_ft = 'html'
+
+# Pug のシンタックスハイライト
+[[plugins]]
+repo = 'digitaltoad/vim-pug'
+on_ft = 'pug'
+
+# マークダウンのシンタックスハイライト
+[[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+on_ft = 'markdown'
+
 # カラースキーマ
 [[plugins]]
 repo = 'morhetz/gruvbox'
@@ -100,6 +159,12 @@ hook_add = '''
     \ 'resume': v:true,
     \ })
 
+	call defx#custom#column('filename', {
+    \ 'min_width': 200,
+    \ 'max_width': 200,
+    \ })
+
+
   autocmd FileType defx call s:defx_my_settings()
 
   function! s:defx_my_settings() abort
@@ -180,7 +245,7 @@ hook_add = '''
 
   " Change file/rec command.
   call denite#custom#var('file/rec', 'command',
-              \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git',
+              \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git,node_modules',
               \  (has('win32') ? '-g:' : '-g='), ''])
 
   " Pt command on grep source
@@ -195,6 +260,10 @@ hook_add = '''
 
   " Chagen buffer command.
   call denite#custom#var('buffer', 'exclude_filetypes', ['denite', 'defx'])
+
+  " Cutom action
+	call denite#custom#action('file,directory', 'defx',
+	      \ {context -> execute('echo "hello"')})
 
   " Change mappings.
   autocmd FileType denite call s:denite_my_settings()
@@ -215,6 +284,8 @@ hook_add = '''
                 \ denite#do_map('do_action', 'split')
     nnoremap <silent><buffer><expr> v
                 \ denite#do_map('do_action', 'vsplit')
+    nnoremap <silent><buffer><expr> e
+                \ denite#do_map('do_action', 'defx')
   endfunction
 '''
 
@@ -228,6 +299,7 @@ repo = 'yaktak/sestry.vim'
 
 # 動的に filetype を切り替える
 [[plugins]]
+if = 0
 repo = 'Shougo/context_filetype.vim'
 
 # LSP を簡単に設定する
@@ -241,9 +313,28 @@ repo = 'Shougo/deoplete-lsp'
 # vim 上でテスト
 [[plugins]]
 repo = 'vim-test/vim-test'
+depends = ['tpope/vim-dispatch']
 hook_add = '''
-  let g:test#php#phpunit#executable = 'docker-compose exec laravel vendor/bin/phpunit'
-  let g:test#project_root = "./laravel"
-  let g:test#strategy = 'neovim'
+  let g:test#php#phpunit#executable = 'docker-compose exec -T laravel ./vendor/bin/phpunit'
+  let g:test#php#phpunit#test_patterns = {
+    \ 'test': [
+      \ '\v^\s*public function (test.+)\(',
+      \ '\v^\s*\*\s*(\@test)',
+      \ '\v^\s*\/\*\*\s*(\@test)\s*\*\/',
+    \],
+    \ 'namespace': [],
+  \}
+  "let g:test#project_root = "./laravel"
+
+  let g:test#strategy = 'dispatch'
 '''
 
+# ビルドを非同期で実行する
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+hook_add = '''
+"let g:dispatch_compilers = {
+"  \ './bin/phpunit': 'phpunit',
+"  \ './vendor/bin/phpunit': 'phpunit',
+"  \ 'docker-compose exec -T laravel': ''}
+'''

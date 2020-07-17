@@ -45,7 +45,7 @@ command! CopyFilePathRelativeToClipBoard
             \ call util#copy_to_clipboard(util#file_path_relative())
 
 command! CleanTmpFiles
-            \ call util#clean_tmp_files()
+            \ call util#remove_tmp_files()
 
 command! RemoveTrailingSpacesOnCurrentBuffer
             \ call util#remove_trailing_spaces_on_current_buffer()

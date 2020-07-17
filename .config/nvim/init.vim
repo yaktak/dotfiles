@@ -1,5 +1,7 @@
 let g:nvim_config_file = $XDG_CONFIG_HOME . '/nvim/init.vim'
 
+source $XDG_CONFIG_HOME/nvim/autoload/util.vim
+
 " ------------------
 "   プラグイン管理
 " ------------------
@@ -167,6 +169,7 @@ nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 " --- 基本オプション ---
 let g:netrw_dirhistmax = 0 "netrw の履歴ファイルを作らない
 
+syntax on
 set redrawtime=10000 "重い再描画の際に syntax off になるまでの時間
 set backupcopy=yes
 set conceallevel=2
@@ -225,6 +228,7 @@ set ignorecase " case-insensitive で検索する
 set smartcase " 検索パターンが upper-case の場合は case-sensitive にする
 set gdefault " 置換の時 g オプションをデフォルトで有効にする
 set inccommand=split
+set wildignore+=**/node_modules/**
 
 " --- タブ ---
 set showtabline=2 " タブラインを常に表示
@@ -235,7 +239,7 @@ set splitbelow " 新しいウィンドウを下に開く
 set splitright " 新しいウィンドウを右に開く
 set winwidth=30 " ウィンドウの最小幅
 set winheight=25 " ウィンドウの最小の高さ
-set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
+" set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
 
 " --- ステータスライン ---
 set laststatus=2 " ステータスラインを常に表示
@@ -268,5 +272,10 @@ augroup indent
     autocmd FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType toml       setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
+
+" ---------------------
+"     テンプレート
+" ---------------------
+autocmd BufNewFile *.php 0r $XDG_CONFIG_HOME/nvim/template/t.php
 
 " vim:set foldmethod=marker:
