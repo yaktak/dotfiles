@@ -2,6 +2,12 @@ let g:nvim_config_file = $XDG_CONFIG_HOME . '/nvim/init.vim'
 
 source $XDG_CONFIG_HOME/nvim/autoload/util.vim
 
+" ローカル設定ファイルを読み込む
+" 読み込み順を制御したいので exrc は使わない
+if (filereadable('./.nvimrc'))
+    source ./.nvimrc
+endif
+
 " ------------------
 "   プラグイン管理
 " ------------------
@@ -170,6 +176,8 @@ nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
 let g:netrw_dirhistmax = 0 "netrw の履歴ファイルを作らない
 
 syntax on
+"set exrc " ローカルの設定ファイルをを許可
+"set secure " ローカルの設定ファイルで autocmd を許可しない
 set redrawtime=10000 "重い再描画の際に syntax off になるまでの時間
 set backupcopy=yes
 set conceallevel=2

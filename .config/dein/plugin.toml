@@ -299,7 +299,6 @@ repo = 'yaktak/sestry.vim'
 
 # 動的に filetype を切り替える
 [[plugins]]
-if = 0
 repo = 'Shougo/context_filetype.vim'
 
 # LSP を簡単に設定する
@@ -315,7 +314,8 @@ repo = 'Shougo/deoplete-lsp'
 repo = 'vim-test/vim-test'
 depends = ['tpope/vim-dispatch']
 hook_add = '''
-  let g:test#php#phpunit#executable = 'docker-compose exec -T laravel ./vendor/bin/phpunit'
+  let g:test#project_root = config#get('project_root_dir')
+  let g:test#php#phpunit#executable = config#get('test_command_phpunit')
   let g:test#php#phpunit#test_patterns = {
     \ 'test': [
       \ '\v^\s*public function (test.+)\(',
@@ -324,17 +324,12 @@ hook_add = '''
     \],
     \ 'namespace': [],
   \}
-  "let g:test#project_root = "./laravel"
 
   let g:test#strategy = 'dispatch'
+  "let g:test#strategy = 'neovim'
+  "let g:test#neovim#term_position = "belowright 20"
 '''
 
 # ビルドを非同期で実行する
 [[plugins]]
 repo = 'tpope/vim-dispatch'
-hook_add = '''
-"let g:dispatch_compilers = {
-"  \ './bin/phpunit': 'phpunit',
-"  \ './vendor/bin/phpunit': 'phpunit',
-"  \ 'docker-compose exec -T laravel': ''}
-'''
