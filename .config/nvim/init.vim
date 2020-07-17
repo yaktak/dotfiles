@@ -4,8 +4,8 @@ source $XDG_CONFIG_HOME/nvim/autoload/util.vim
 
 " ローカル設定ファイルを読み込む
 " 読み込み順を制御したいので exrc は使わない
-if (filereadable('./.nvimrc'))
-    source ./.nvimrc
+if (filereadable('./.localrc.vim'))
+    source ./.localrc.vim
 endif
 
 " ------------------
