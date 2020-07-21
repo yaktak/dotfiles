@@ -78,8 +78,7 @@ hook_source = '''
 # 静的解析ツール
 [[plugins]]
 repo = 'dense-analysis/ale'
-if = 0
-on_ft = ['javascript', 'php', 'python', 'typescript', 'vue', 'vim']
+on_ft = ['vue']
 hook_source = '''
   let g:ale_completion_tsserver_autoimport = 1
 '''

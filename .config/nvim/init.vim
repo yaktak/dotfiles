@@ -63,7 +63,7 @@ command! DeinClean :call s:deinClean()
 lua << EOF
 require'nvim_lsp'.tsserver.setup{}
 require'nvim_lsp'.intelephense.setup{}
-require'nvim_lsp'.vuels.setup{}
+--require'nvim_lsp'.vuels.setup{}
 EOF
 
 "}}}
