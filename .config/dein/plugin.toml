@@ -297,10 +297,6 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'yaktak/sestry.vim'
 
-# 動的に filetype を切り替える
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
 # LSP を簡単に設定する
 [[plugins]]
 repo = 'neovim/nvim-lsp'
