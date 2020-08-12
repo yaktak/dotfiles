@@ -53,6 +53,7 @@ set main-view = \
 
 # Generic bindings
 bind generic > ?git push origin
+bind generic ] ?git push --force origin
 
 # Main bindings
 bind main B ?git rebase -i %(commit)

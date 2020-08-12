@@ -154,7 +154,7 @@ hook_add = '''
   call defx#custom#option('_', {
     \ 'split': 'vertical',
     \ 'direction': 'topleft',
-    \ 'winwidth': '60',
+    \ 'winwidth': '45',
     \ 'listed': v:true,
     \ 'resume': v:true,
     \ })
@@ -180,7 +180,7 @@ hook_add = '''
     nnoremap <silent><buffer><expr> l
     \ defx#do_action('open_directory')
     nnoremap <silent><buffer><expr> E
-    \ defx#do_action('open', 'vsplit')
+    \ defx#do_action('drop', 'split')
     nnoremap <silent><buffer><expr> P
     \ defx#do_action('open', 'pedit')
     nnoremap <silent><buffer><expr> o
@@ -322,8 +322,6 @@ hook_add = '''
   \}
 
   let g:test#strategy = 'dispatch'
-  "let g:test#strategy = 'neovim'
-  "let g:test#neovim#term_position = "belowright 20"
 '''
 
 # ビルドを非同期で実行する

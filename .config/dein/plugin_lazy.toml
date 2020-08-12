@@ -50,9 +50,14 @@ hook_source = '''
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 on_event = 'InsertEnter'
-depends = ['neosnippet-snippets']
+#depends = ['neosnippet-snippets']
 hook_source = '''
   let g:neosnippet#snippets_directory = $XDG_CONFIG_HOME . '/nvim/snips'
+
+  " デフォルトスニペットを無効
+  let g:neosnippet#disable_runtime_snippets = {
+    \   '_' : 1,
+    \ }
 
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -65,6 +70,7 @@ hook_source = '''
 
 # neosnippet のデフォルトスニペット
 [[plugins]]
+if = 0
 repo = 'Shougo/neosnippet-snippets'
 
 # ヘルプファイルを日本語化
