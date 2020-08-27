@@ -18,7 +18,6 @@ on_ft = 'fish'
 
 # TypeScript のシンタックスハイライト
 [[plugins]]
-if = 0
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
 
@@ -51,6 +50,11 @@ on_ft = 'html'
 [[plugins]]
 repo = 'digitaltoad/vim-pug'
 on_ft = 'pug'
+
+# tsx のシンタックスハイライト
+[[plugins]]
+repo = 'peitalin/vim-jsx-typescript'
+on_ft = 'typescript.tsx'
 
 # マークダウンのシンタックスハイライト
 [[plugins]]
