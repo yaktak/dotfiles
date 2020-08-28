@@ -19,7 +19,8 @@ function! util#file_path(suffix) abort
 endfunction
 
 function! util#remove_tmp_files() abort
-    echo 'Not implemented yet'
+    call system("rm -rf ~/.local/share/nvim/swap/")
+    echo 'Swap files cleaned up.'
 endfunction
 
 function! util#copy_to_clipboard(str) abort
