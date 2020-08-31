@@ -54,7 +54,7 @@ on_ft = 'pug'
 # tsx のシンタックスハイライト
 [[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
-on_ft = 'typescript.tsx'
+on_ft = 'tsx'
 
 # マークダウンのシンタックスハイライト
 [[plugins]]
@@ -69,6 +69,10 @@ hook_add = '''
   colorscheme gruvbox
   set background=dark
 '''
+
+# editorconfig を使えるように
+[[plugins]]
+repo = 'editorconfig/editorconfig-vim'
 
 # カラーコードをハイライトする
 [[plugins]]
@@ -316,12 +320,20 @@ depends = ['tpope/vim-dispatch']
 hook_add = '''
   let g:test#project_root = config#get('project_root_dir')
   let g:test#php#phpunit#executable = config#get('test_command_phpunit')
+
+  " Nearest のとき、'test' で始まる日本語メソッド名の場合にヒットさせる
   let g:test#php#phpunit#test_patterns = {
     \ 'test': [
       \ '\v^\s*public function (test.+)\(',
       \ '\v^\s*\*\s*(\@test)',
       \ '\v^\s*\/\*\*\s*(\@test)\s*\*\/',
     \],
+    \ 'namespace': [],
+  \}
+
+  " Nearest のとき、 @test + 日本語メソッド名の場合にヒットさせる
+  let g:test#php#patterns = {
+    \ 'test':      ['\v^\s*public function (.+)\('],
     \ 'namespace': [],
   \}
 

@@ -44,7 +44,7 @@ color diff-chunk        190             default
 
 # Initialize options
 # set log-options = --no-merges
-
+set refresh-mode = auto
 set main-view = \
     date:relative-compact \
     author:no \
@@ -62,6 +62,7 @@ bind main S ?git reset --mixed %(commit)
 bind main V ?git revert %(commit)
 
 # Branch bindings
+bind refs D ?git branch -d %(branch)
 
 # Diff bindings
 

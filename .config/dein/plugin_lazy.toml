@@ -15,7 +15,7 @@ hook_source = '''
 # HTML のタグ補完など
 [[plugins]]
 repo = 'mattn/emmet-vim'
-on_ft = ['blade', 'html', 'vue']
+on_ft = ['blade', 'html', 'vue', 'tsx']
 hook_source = '''
   let g:user_emmet_mode = 'a'
   let g:user_emmet_leader_key = '<C-Y>'
