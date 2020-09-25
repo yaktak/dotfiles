@@ -1,15 +1,15 @@
 function! ui#statusline() abort
     let s = '%<%f%m%r%h%w  %='
 
-    if &fileencoding != ''
-        let s .= printf('[%s]', &fileencoding)
-    endif
+    " if &fileencoding != ''
+    "     let s .= printf('[%s]', &fileencoding)
+    " endif
 
-    if &filetype != ''
-        let s .= printf('[%s]', &filetype)
-    endif
+    " if &filetype != ''
+    "     let s .= printf('[%s]', &filetype)
+    " endif
 
-    let s .= '[%l/%L,%c]'
+    let s .= '[%{&fileencoding}][%{&filetype}][%l/%L,%c]'
     return s
 endfunction
 

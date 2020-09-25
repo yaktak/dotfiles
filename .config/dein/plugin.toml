@@ -343,3 +343,8 @@ hook_add = '''
 # ビルドを非同期で実行する
 [[plugins]]
 repo = 'tpope/vim-dispatch'
+
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+hook_source = '''
+'''

@@ -117,6 +117,8 @@ nmap <silent> t<C-s> :<C-u>TestSuite<CR>
 nmap <silent> t<C-l> :<C-u>TestLast<CR>
 nmap <silent> t<C-g> :<C-u>TestVisit<CR>
 
+" dentie
+
 "}}}
 
 " ---------------------
@@ -160,7 +162,7 @@ nnoremap <silent> <Leader>sb :<C-u>Denite buffer<CR>
 nnoremap <silent> <Leader>sc :<C-u>Denite command<CR>
 nnoremap <silent> <Leader>sh :<C-u>Denite command_history<CR>
 nnoremap <silent> <Leader>sd :<C-u>Denite directory_rec<CR>
-nnoremap <silent> <Leader>sg :<C-u>Denite grep<CR>
+nnoremap <silent> <Leader>sg :<C-u>Denite grep -resume -refresh -buffer-name=denite-grep<CR>
 nnoremap <silent> <Leader>sf :<C-u>Denite file/rec<CR>
 nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
