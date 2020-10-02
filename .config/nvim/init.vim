@@ -117,8 +117,6 @@ nmap <silent> t<C-s> :<C-u>TestSuite<CR>
 nmap <silent> t<C-l> :<C-u>TestLast<CR>
 nmap <silent> t<C-g> :<C-u>TestVisit<CR>
 
-" dentie
-
 "}}}
 
 " ---------------------
@@ -166,6 +164,10 @@ nnoremap <silent> <Leader>sg :<C-u>Denite grep -resume -refresh -buffer-name=den
 nnoremap <silent> <Leader>sf :<C-u>Denite file/rec<CR>
 nnoremap <silent> <Leader>sl :<C-u>Denite line<CR>
 nnoremap <silent> <Leader>so :<C-u>Denite outline<CR>
+nnoremap <silent> <Leader>sm :<C-u>Denite mark<CR>
+
+" vista
+nnoremap <silent> <Leader>v<Space> :<C-u>Vista!!<CR>
 
 "}}}
 
