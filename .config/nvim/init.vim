@@ -251,6 +251,11 @@ set winwidth=30 " ウィンドウの最小幅
 set winheight=25 " ウィンドウの最小の高さ
 " set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
 
+augroup window
+    autocmd!
+    autocmd FileType qf wincmd L
+augroup END
+
 " --- ステータスライン ---
 set laststatus=2 " ステータスラインを常に表示
 set statusline=%!ui#statusline()
