@@ -1,3 +1,7 @@
+function! ui#NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
 function! ui#statusline() abort
     let s = '%<%f%m%r%h%w  %='
 
@@ -8,6 +12,8 @@ function! ui#statusline() abort
     " if &filetype != ''
     "     let s .= printf('[%s]', &filetype)
     " endif
+
+    " let s .= 'F:%{ui#NearestMethodOrFunction()} '
 
     let s .= '[%{&fileencoding}][%{&filetype}][%l/%L,%c]'
     return s

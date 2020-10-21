@@ -344,7 +344,18 @@ hook_add = '''
 [[plugins]]
 repo = 'tpope/vim-dispatch'
 
+# メモ機能
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 hook_source = '''
+'''
+
+# LSP Symbol をサイドバーで表示
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
+hook_add = '''
+  let g:vista_sidebar_width = 40
+  let g:vista_default_executive = 'ctags'
+  let g:vista_echo_cursor_strategy = 'floating_win'
+  let g:vista_stay_on_open = 0
 '''
