@@ -226,7 +226,7 @@ set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsiz
 set showmatch " 対応する括弧を強調表示
 set cursorline " カーソルラインの強調表示
 " set cursorcolumn " カーソルラインの強調表示（縦）
-set number " 行番号の表示
+set nonumber " 行番号の非表示
 set colorcolumn=100 " 縦のライン表示
 set showcmd " 入力中のコマンドを表示
 set list " 不可視文字を表示
@@ -252,6 +252,11 @@ set splitright " 新しいウィンドウを右に開く
 set winwidth=30 " ウィンドウの最小幅
 set winheight=25 " ウィンドウの最小の高さ
 " set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
+
+augroup window
+    autocmd!
+    autocmd FileType qf wincmd L | vertical resize 70 | set winfixwidth
+augroup END
 
 " --- ステータスライン ---
 set laststatus=2 " ステータスラインを常に表示

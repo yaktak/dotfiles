@@ -51,6 +51,9 @@ command! CleanTmpFiles
 command! RemoveTrailingSpacesOnCurrentBuffer
             \ call util#remove_trailing_spaces_on_current_buffer()
 
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+            \ | wincmd p | diffthis
+
 function! util#open_config_file() abort
     execute 'edit '. g:nvim_config_file
 endfunction
@@ -79,4 +82,3 @@ function! util#toggle_wrap() abort
         echo 'wrap on'
     endif
 endfunction
-
