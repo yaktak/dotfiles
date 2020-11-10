@@ -64,7 +64,7 @@
     s = status
     sh = show
     l = log
-    lo = log --oneline
+    lo = log --oneline --pretty='format:%C(yellow)%h %C(green)%cd %C(blue)%an%C(red)%d %C(reset)%s'
     lgo = log --graph --oneline --pretty=format:'%C(bold blue)<%an>%Creset %C(yellow)%h%Creset -%C(red)%d%Creset %s'
 [http]
     sslVerify = false

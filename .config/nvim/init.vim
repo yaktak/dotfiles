@@ -99,6 +99,10 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 
+" quickfix window 用
+nnoremap ]q :<C-u>cnext<CR>
+nnoremap [q :<C-u>cprevious<CR>
+
 " LSP
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
@@ -226,7 +230,7 @@ set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsiz
 set showmatch " 対応する括弧を強調表示
 set cursorline " カーソルラインの強調表示
 " set cursorcolumn " カーソルラインの強調表示（縦）
-set nonumber " 行番号の非表示
+set number " 行番号の表示
 set colorcolumn=100 " 縦のライン表示
 set showcmd " 入力中のコマンドを表示
 set list " 不可視文字を表示
