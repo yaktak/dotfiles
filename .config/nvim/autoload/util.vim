@@ -10,7 +10,7 @@ function! util#file_path_full() abort
     return util#file_path('p')
 endfunction
 
-function! util#path_relative() abort
+function! util#file_path_relative() abort
     return util#file_path('')
 endfunction
 

@@ -82,10 +82,6 @@ nnoremap <silent> <C-n> :<C-u>bn<CR>
 " 前のバッファへ移動
 nnoremap <silent> <C-p> :<C-u>bp<CR>
 
-" 少し多めに移動
-nnoremap <C-j> 8j
-nnoremap <C-k> 8k
-
 " インサートモード中に横移動
 inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
@@ -108,7 +104,7 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <c-s> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
@@ -149,6 +145,8 @@ nnoremap <silent> <Leader>p :<C-u>call util#toggle_paste_mode()<CR>
 " 折返しの有無の切り替え
 nnoremap <silent> <Leader>wt :<C-u>call util#toggle_wrap()<CR>
 
+nnoremap <silent> <Leader>bd :<C-u>bd<CR>
+
 " vim-indent-guides
 nnoremap <silent> <Leader>ig :<C-u>IndentGuidesToggle<CR>
 
@@ -172,6 +170,12 @@ nnoremap <silent> <Leader>sm :<C-u>Denite mark<CR>
 
 " vista
 nnoremap <silent> <Leader>v<Space> :<C-u>Vista!!<CR>
+
+" memolist.vim
+    autocmd FileType qf wincmd L | vertical resize 70 | set winfixwidth
+nnoremap <Leader>mn :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoNew<CR>
+nnoremap <Leader>ml :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoList<CR>
+nnoremap <Leader>mg :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoGrep<CR>
 
 "}}}
 
@@ -294,6 +298,7 @@ augroup indent
     autocmd FileType typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType toml       setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType yaml       setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType markdown   setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 " ---------------------

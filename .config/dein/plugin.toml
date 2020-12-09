@@ -353,6 +353,7 @@ repo = 'tpope/vim-dispatch'
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 hook_source = '''
+  let g:memolist_memo_suffix = 'md'
 '''
 
 # LSP Symbol をサイドバーで表示
