@@ -245,6 +245,7 @@ set smartcase " 検索パターンが upper-case の場合は case-sensitive に
 set gdefault " 置換の時 g オプションをデフォルトで有効にする
 set inccommand=split
 set wildignore+=**/node_modules/**
+set wildignore+=**/\.git/**
 
 " --- タブ ---
 set showtabline=2 " タブラインを常に表示
