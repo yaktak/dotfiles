@@ -251,6 +251,11 @@ hook_add = '''
   call denite#custom#option('_', 'vertical_preview', v:true)
   call denite#custom#option('_', 'preview_width', 60)
 
+  " Change ignore_globs
+  call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
   " Change file/rec command.
   call denite#custom#var('file/rec', 'command',
               \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--ignore=.git,node_modules',
