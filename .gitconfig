@@ -12,7 +12,10 @@
     status = auto
     branch = auto
 [diff]
-  tool = nvimdiff
+    tool = nvimdiff
+[merge]
+    tool = nvimdiff
+    conflictstyle = diff3
 [difftool "nvimdiff"]
   cmd = "nvim -R -d -c \"wincmd l\" -d \"$LOCAL\" \"$REMOTE\""
 [mergetool "nvimdiff"]
@@ -43,8 +46,9 @@
     dwc = diff --word-diff --cached
     f = fetch
     m = merge
-    mt = mergetool -t vimdiff2
+    mt = mergetool
     ps = push
+    psu = push --set-upstream
     psf = push --force
     pl = pull
     plr = pull --rebase

@@ -82,3 +82,7 @@ function! util#toggle_wrap() abort
         echo 'wrap on'
     endif
 endfunction
+
+function! util#unescape_utf8() abort
+    execute '%s/\\u\([0-9a-f]\{4}\)/\=nr2char(eval("0x".submatch(1)),1)'
+endfunction

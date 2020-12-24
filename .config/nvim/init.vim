@@ -172,7 +172,6 @@ nnoremap <silent> <Leader>sm :<C-u>Denite mark<CR>
 nnoremap <silent> <Leader>v<Space> :<C-u>Vista!!<CR>
 
 " memolist.vim
-    autocmd FileType qf wincmd L | vertical resize 70 | set winfixwidth
 nnoremap <Leader>mn :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoNew<CR>
 nnoremap <Leader>ml :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoList<CR>
 nnoremap <Leader>mg :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoGrep<CR>
@@ -197,7 +196,6 @@ set concealcursor=niv
 
 set mouse=a " マウス機能
 set hidden " 隠れバッファの許可
-set winminheight=0 " ウィンドウの最小の高さ
 set clipboard=unnamed,unnamedplus " yank 時に '+' と '*' レジスタにコピーする
 set breakindent " 行の折り返し時にインデントを考慮する
 set undofile " 永続的Undo機能
@@ -258,7 +256,8 @@ set tabline=%!ui#tabline()
 set splitbelow " 新しいウィンドウを下に開く
 set splitright " 新しいウィンドウを右に開く
 set winwidth=30 " ウィンドウの最小幅
-set winheight=25 " ウィンドウの最小の高さ
+set winheight=25 " カレントウィンドウの最小の高さ
+set winminheight=0 " ウィンドウの最小の高さ
 " set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
 
 augroup window
