@@ -3,19 +3,7 @@ function! ui#NearestMethodOrFunction() abort
 endfunction
 
 function! ui#statusline() abort
-    let s = '%<%f%m%r%h%w  %='
-
-    " if &fileencoding != ''
-    "     let s .= printf('[%s]', &fileencoding)
-    " endif
-
-    " if &filetype != ''
-    "     let s .= printf('[%s]', &filetype)
-    " endif
-
-    " let s .= 'F:%{ui#NearestMethodOrFunction()} '
-
-    let s .= '[%{&fileencoding}][%{&filetype}][%l/%L,%c]'
+    let s = '%<%f%m%r%h%w  %=[%{&fileencoding}][%{&filetype}][%l/%L,%c]#%{winnr()}'
     return s
 endfunction
 

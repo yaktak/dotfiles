@@ -130,10 +130,13 @@ let mapleader = "\<Space>"
 nnoremap <silent> <Leader>,<Space> :<C-u>call util#open_config_file()<CR>
 " 設定ファイルを再読込
 nnoremap <silent> <Leader>,r :<C-u>call util#reload_config_file()<CR>
-" ウィンドウを閉じる
-nnoremap <silent> <Leader>q :<C-u>q<CR>
-" 保存
-nnoremap <silent> <Leader>w :<C-u>w<CR>
+
+nnoremap <silent> <Leader>q<Space> :<C-u>q<CR>
+nnoremap <silent> <Leader>qa<Space> :<C-u>qa<CR>
+nnoremap <silent> <Leader>w<Space> :<C-u>w<CR>
+nnoremap <silent> <Leader>wq<Space> :<C-u>wq<CR>
+nnoremap <silent> <Leader>wqa<Space> :<C-u>wqa<CR>
+
 " 最初のレジスタを貼り付け
 nnoremap <silent> <Leader>rp "0p
 " 下に改行を挿入
@@ -175,6 +178,13 @@ nnoremap <silent> <Leader>v<Space> :<C-u>Vista!!<CR>
 nnoremap <Leader>mn :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoNew<CR>
 nnoremap <Leader>ml :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoList<CR>
 nnoremap <Leader>mg :vnew \| wincmd L \| vertical resize 50 \| set winfixwidth \| MemoGrep<CR>
+
+" vim-test
+nnoremap <Leader>tn :<C-u>TestNearest<CR>
+nnoremap <Leader>tf :<C-u>TestFile<CR>
+nnoremap <Leader>ts :<C-u>TestSuite<CR>
+nnoremap <Leader>tl :<C-u>TestLast<CR>
+nnoremap <Leader>tg :<C-u>TestVisit<CR>
 
 "}}}
 
@@ -230,13 +240,13 @@ set sessionoptions=buffers,curdir,folds,help,localoptions,tabpages,winpos,winsiz
 
 " --- 見た目 ---
 set showmatch " 対応する括弧を強調表示
-set cursorline " カーソルラインの強調表示
-" set cursorcolumn " カーソルラインの強調表示（縦）
+"set cursorline " カーソルラインの強調表示
+"set cursorcolumn " カーソルラインの強調表示（縦）
 set number " 行番号の表示
 set colorcolumn=100 " 縦のライン表示
 set showcmd " 入力中のコマンドを表示
 set list " 不可視文字を表示
-set listchars=tab:>-,trail:-,eol:↲
+set listchars=tab:>-,trail:-
 
 " --- 検索 / 置換 ---
 set shortmess+=I " 起動時の :intrto を非表示
@@ -257,13 +267,13 @@ set tabline=%!ui#tabline()
 set splitbelow " 新しいウィンドウを下に開く
 set splitright " 新しいウィンドウを右に開く
 set winwidth=30 " ウィンドウの最小幅
-set winheight=25 " カレントウィンドウの最小の高さ
+set winheight=20 " カレントウィンドウの最小の高さ
 set winminheight=0 " ウィンドウの最小の高さ
 " set noequalalways " ウィンドウを閉じたり開いたりした場合に、カレントウィンドウ以外の高さ、幅を整えない
 
 augroup window
     autocmd!
-    autocmd FileType qf wincmd L | vertical resize 70 | set winfixwidth
+    " autocmd FileType qf wincmd L | vertical resize 70 | set winfixwidth
 augroup END
 
 " --- ステータスライン ---

@@ -6,7 +6,7 @@
 
 # Main UI
 # ==============================================================================
-color default           250             234
+color default           250             default
 color 'Author '         15              default
 color 'Commit: '        242             default
 color 'Merge: '         45              default
@@ -52,7 +52,7 @@ set main-view = \
     commit-title:graph=no,refs=yes
 
 # Generic bindings
-bind generic > ?git push origin
+bind generic > ?git push --set-upstream origin
 bind generic ] ?git push --force origin
 
 # Main bindings
