@@ -314,5 +314,6 @@ augroup END
 "     テンプレート
 " ---------------------
 autocmd BufNewFile *.php 0r $XDG_CONFIG_HOME/nvim/template/t.php
+autocmd BufNewFile *.sh 0r $XDG_CONFIG_HOME/nvim/template/t.sh
 
 " vim:set foldmethod=marker:

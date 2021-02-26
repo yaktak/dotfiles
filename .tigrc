@@ -54,6 +54,8 @@ set main-view = \
 # Generic bindings
 bind generic > ?git push --set-upstream origin
 bind generic ] ?git push --force origin
+bind generic [ ?git fetch
+bind generic ( ?git pull
 
 # Main bindings
 bind main B ?git rebase -i %(commit)
@@ -63,6 +65,7 @@ bind main V ?git revert %(commit)
 
 # Branch bindings
 bind refs D ?git branch -d %(branch)
+bind refs M ?git merge %(branch)
 
 # Diff bindings
 
