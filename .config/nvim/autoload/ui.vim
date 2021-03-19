@@ -55,7 +55,8 @@ function! ui#tablabel(n) abort
     elseif getbufvar(bn, '&buftype') == 'quickfix'
         let s .= '[Quickfix]'
     else
-        let s .= fnamemodify(bn, ':~:.')
+        " let s .= fnamemodify(bn, ':~:.') " 相対パス
+        let s .= fnamemodify(bn, ':t') " ファイル名のみ
     endif
 
     " 変更のあるバッファの数を表示

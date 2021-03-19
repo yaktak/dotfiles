@@ -86,6 +86,12 @@ nnoremap <silent> <C-p> :<C-u>bp<CR>
 inoremap <C-b> <C-o>h
 inoremap <C-f> <C-o>l
 
+" 表示行単位での移動を基本に
+nnoremap k gk
+nnoremap gk k
+nnoremap j gj
+nnoremap gj jk
+
 " コマンドラインで Emacs 風に移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
@@ -226,8 +232,37 @@ set encoding=utf8 " Vimが内部で用いるエンコーディング
 set termencoding=utf8 " 端末の出力に用いられるエンコーディング
 
 " --- 折りたたみ ---
+set foldopen-=search
 set foldminlines=0
 set foldmethod=manual
+
+function! MarkdownLevel()
+    if getline(v:lnum) =~ '^# .*$'
+        return ">1"
+    endif
+    " if getline(v:lnum) =~ '^## .*$'
+    "     return ">2"
+    " endif
+    " if getline(v:lnum) =~ '^### .*$'
+    "     return ">3"
+    " endif
+    " if getline(v:lnum) =~ '^#### .*$'
+    "     return ">4"
+    " endif
+    " if getline(v:lnum) =~ '^##### .*$'
+    "     return ">5"
+    " endif
+    " if getline(v:lnum) =~ '^###### .*$'
+    "     return ">6"
+    " endif
+    return "="
+endfunction
+
+augroup folding
+    autocmd!
+    autocmd BufEnter *.md,*.markdown setlocal foldexpr=MarkdownLevel()
+    autocmd BufEnter *.md,*.markdown setlocal foldmethod=expr
+augroup END
 
 " --- タグ ---
 " set tags=tags
