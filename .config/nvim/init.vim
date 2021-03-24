@@ -116,13 +116,6 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
-" vim-test
-nmap <silent> t<C-n> :<C-u>TestNearest<CR>
-nmap <silent> t<C-f> :<C-u>TestFile<CR>
-nmap <silent> t<C-s> :<C-u>TestSuite<CR>
-nmap <silent> t<C-l> :<C-u>TestLast<CR>
-nmap <silent> t<C-g> :<C-u>TestVisit<CR>
-
 "}}}
 
 " ---------------------
